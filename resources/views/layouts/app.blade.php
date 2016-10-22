@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{ url('/css/app.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -59,6 +59,11 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    @if(Auth::user()->access(1))
+                                    <li>
+                                        <a href="{{ url('/admincontrol')}}">Admin Page</a>
+                                    </li>
+                                    @endif
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
@@ -79,9 +84,13 @@
         </nav>
 
         @yield('content')
+        
     </div>
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="{{ url('/js/app.js') }}"></script>
+
+        @yield('scripts')
+
 </body>
 </html>

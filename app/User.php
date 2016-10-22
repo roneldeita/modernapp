@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -26,4 +27,31 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function methods(){
+
+        return $this->belongsToMany('App\Method');
+    }
+
+    public function access($method_id){
+
+        $user = Auth::user();
+
+        $method_ids =array();
+
+        foreach($user->methods as $method){
+
+            array_push($method_ids, $method->id);
+        }
+
+        if(in_array($method_id, $method_ids)){
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
 }

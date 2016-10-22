@@ -12,9 +12,32 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/home');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
+
+	Route::get('/', 'AdminController@index');
+
+	Route::group(['prefix'=>'access'], function(){
+
+		Route::get('/', 'AccessController@index');
+
+		Route::get('/methods', 'AccessController@getMethods');
+
+		Route::get('/user', 'AccessController@getMethodUser');
+
+		Route::post('/add', 'AccessController@addMethod');
+
+		Route::post('/remove', 'AccessController@removeMethod');
+
+	});
+
+});
+
+//search laravel authorization
+Route::resource('/post', 'PostController');
