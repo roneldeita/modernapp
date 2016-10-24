@@ -12,7 +12,11 @@
 
 				<div class="col-md-12">
 
-					<h1>Access</h1>
+					<div class = "page-header">
+
+						<h1>Manage Access</h1>
+						
+					</div>
 
 				</div>
 				
@@ -83,6 +87,7 @@
 	var csrf = "{{ csrf_token()}}";
 	var select_module = $('select[name=module]');
 	var select_user = $('select[name=user]');
+	var button_save = $('button[name=save]');
 
 
 	$(function(){
@@ -154,6 +159,7 @@
 			});
 
 		});
+
 
 		$(document).on('click', '.method-checkbox',function(){
 

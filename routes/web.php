@@ -31,6 +31,7 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 
 		Route::get('/user', 'AccessController@getMethodUser');
 
+
 		Route::post('/add', 'AccessController@addMethod');
 
 		Route::post('/remove', 'AccessController@removeMethod');
@@ -38,6 +39,3 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 	});
 
 });
-
-//search laravel authorization
-Route::resource('/post', 'PostController');

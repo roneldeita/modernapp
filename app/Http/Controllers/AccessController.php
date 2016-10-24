@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use Illuminate\Auth\Access;
+use Illuminate\Support\Facades\Gate;
 use App\User;
 use App\Module;
 use App\Method;
@@ -13,12 +15,21 @@ use App\Method;
 class AccessController extends Controller
 {
 
-    public function index(){
-        
-        $modules = Module::all();
-        $users = User::all();
+    protected $view_access = 6;
+    protected $update_access = 7;
 
-        return view('admin.access.index', compact('modules', 'users'));
+    public function index(){
+         
+        if (Gate::allows('access', $this->view_access)) {
+
+            $modules = Module::all();
+            $users = User::all();
+
+            return view('admin.access.index', compact('modules', 'users'));
+
+        }
+
+        return redirect('/admincontrol');
 
     }
 
@@ -51,17 +62,23 @@ class AccessController extends Controller
 
     public function addMethod(Request $request){
 
-     	$user = User::findOrFail($request->user_id);
+        if (Gate::allows('access', $this->update_access)) {
 
-     	$user->methods()->attach($request->method_id);
+            $user = User::findOrFail($request->user_id);
+
+            $user->methods()->attach($request->method_id);
+        }
 
     }
 
     public function removeMethod(Request $request){
 
-     	$user = User::findOrFail($request->user_id);
+        if (Gate::allows('access', $this->update_access)) {
 
-     	$user->methods()->detach($request->method_id);
+            $user = User::findOrFail($request->user_id);
+
+            $user->methods()->detach($request->method_id);
+        }
 
     }
      

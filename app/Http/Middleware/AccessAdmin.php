@@ -14,27 +14,28 @@ class AccessAdmin
      * @param  \Closure  $next
      * @return mixed
      */
+
+    protected $view_admin = 1;
+
     public function handle($request, Closure $next)
     {
 
         $user =  Auth::user();
 
-        //if logged in
-        if($user){
+        
+        if($user){//if logged in
             
-            //check if allowed to admin page
-            if(!$user->access(1)){
+            if(!$user->access($this->view_admin)){//check if allowed to admin page
 
-                return redirect()->intended('/home');
+                return redirect('/home');
 
             }
-            //if not redirect to home
-        }else{
+           
+        }else{ //if not logged inredirect to home
 
            return redirect('/');
 
         }
-        
 
         return $next($request);
     }
