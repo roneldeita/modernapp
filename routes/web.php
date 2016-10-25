@@ -38,4 +38,10 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 
 	});
 
+	Route::group(['prefix'=>'user'], function(){
+
+		Route::get('/', 'UserController@index');
+
+	});
+
 });

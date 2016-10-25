@@ -15,12 +15,12 @@ use App\Method;
 class AccessController extends Controller
 {
 
-    protected $view_access = 6;
-    protected $update_access = 7;
+    protected $view     = 6;
+    protected $update   = 7;
 
     public function index(){
          
-        if (Gate::allows('access', $this->view_access)) {
+        if (Gate::allows('access', $this->view)) {
 
             $modules = Module::all();
             $users = User::all();
@@ -48,37 +48,49 @@ class AccessController extends Controller
 
     public function getMethodUser(Request $request){
 
-     	$access = User::find($request->id);
+        $access = User::find($request->id);
 
-     	if($access){
+        if($access){
 
-     		return $this->json($access->methods);
+            if(Gate::allows('access', $this->update)) {
 
-     	}
+                return $this->json(array($access->methods, [ 'disable'=>false ]));
+
+            }else{
+
+                return $this->json(array($access->methods, [ 'disable'=>true ]));
+                
+            }
+
+        }
+
+        return $this->json(array(null, [ 'disable'=>true ]));
      	
-     	return $this->json(null);
-
      }
 
     public function addMethod(Request $request){
 
-        if (Gate::allows('access', $this->update_access)) {
+        if (Gate::allows('access', $this->update)) {
 
             $user = User::findOrFail($request->user_id);
 
-            $user->methods()->attach($request->method_id);
+            $attach = $user->methods()->attach($request->method_id);
+
         }
+
 
     }
 
     public function removeMethod(Request $request){
 
-        if (Gate::allows('access', $this->update_access)) {
+        if (Gate::allows('access', $this->update)) {
 
             $user = User::findOrFail($request->user_id);
 
-            $user->methods()->detach($request->method_id);
+            $detach=$user->methods()->detach($request->method_id);
+
         }
+
 
     }
      

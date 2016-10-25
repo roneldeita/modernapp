@@ -11,11 +11,13 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" type="text/css" href="/assets/font-awesome-4.6.3/css/font-awesome.min.css">
 
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{ url('/assets/font-awesome-4.6.3/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
-    <link href="/css/admin.css" rel="stylesheet">
+    <link href="{{ url('/css/app.css') }}" rel="stylesheet">
+
+    <link href="{{ url('/css/admin.css') }}" rel="stylesheet">
+    @yield('styles')
 
     <!-- Scripts -->
     <script>
@@ -38,6 +40,9 @@
                         </li>
                         <li>
                             <a href="{{ url('/admincontrol/access') }}"><span class="fa fa-wrench"></span> Access</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admincontrol/user') }}"><span class="fa fa-user"></span> User</a>
                         </li>
                         <li>
                             <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -78,7 +83,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="{{ url('/js/app.js') }}"></script>
+    @yield('scripts')
 
     <script type="text/javascript">
 
@@ -89,8 +95,6 @@
         });
 
     </script>
-
-        @yield('scripts')
 
 </body>
 </html>

@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('styles')
+	
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet" />
+
+@endsection
+
 @section('content')
 
 	<div class="container">
@@ -60,7 +66,7 @@
 					<br>
 					<table class="table table-hover">
 						<thead>
-							<th>Methods</th>
+							<th style="width:600px">Methods</th>
 							<th>Grant</th>
 						</thead>
 						<tbody class="methods">
@@ -82,6 +88,8 @@
 
 @section('scripts')
 	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
+
 	<script type="text/javascript">
 
 	var csrf = "{{ csrf_token()}}";
@@ -126,6 +134,14 @@
 
 					});
 
+					$(".method-checkbox").bootstrapSwitch({
+						'size':'small',
+						'onColor':'success',
+						'offColor':'default',
+						'onText' :'Yes',
+						'offText':'No',
+						'disabled':true
+					});
 
 				}
 			});
@@ -146,28 +162,32 @@
 				dataType : "JSON",
 				success: function(data){
 
-					 $('.methods').find('input').prop('checked', false);
+					//enable switch
+					$('.method-checkbox').bootstrapSwitch('disabled', false);
+					//reset switch
+					$('.methods').find('input').prop('checked', false).bootstrapSwitch('state', false, true);
 
-					 $.each(data, function(key, value){
+					$.each(data[0], function(key, value){
+						//turn the switch to yes/true if found access
+					 	var method = $('.methods').find('input#'+value['id']).prop('checked', true).bootstrapSwitch('state', true, true);
 
-					 	var method = $('.methods').find('input#'+value['id']).prop('checked', true);
-
-					 });
+					});
 					
+					//disable switch if disable is true
+					if(data[1]['disable'] === true){
+						$('.method-checkbox').bootstrapSwitch('disabled',true);
+					}
 
 				}
 			});
 
 		});
 
-
-		$(document).on('click', '.method-checkbox',function(){
-
+		$(document).on('switchChange.bootstrapSwitch','.method-checkbox', function(event, state) {
 			var userId=$('select[name=user] option:selected').val();
 			var methodId=$(this).attr('id');
-			var check = $(this).is(':checked');
 
-			if(check === true){
+			if(state === true){
 				$.ajax({
 					type:"POST",
 					url:"/admincontrol/access/add",
@@ -179,7 +199,7 @@
 					dataType:"JSON",
 					success: function(data){
 
-						console.log(data);
+						//console.log("done!")
 
 					}
 
@@ -195,14 +215,13 @@
 					},
 					dataType:"JSON",
 					success: function(data){
-
-						console.log(data);
+						 		
+						 //console.log("done!")
 
 					}
 
 				});
 			}
-
 		});
 
 	});
