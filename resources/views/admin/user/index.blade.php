@@ -44,8 +44,8 @@
 								<tr>
 									<td>{{ $user->name }}</td>
 									<td>{{ $user->email }}</td>
-									<td>{{ $user->updated_at->diffForHumans() }}</td>
-									<td>{{ $user->created_at->diffForHumans() }}</td>
+									<td>{{ $user->updated_at != null ? $user->updated_at->diffForHumans() : "No timestamp" }}</td>
+									<td>{{ $user->created_at != null ? $user->created_at->diffForHumans() : "No timestamp"}}</td>
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-info">Action</button>

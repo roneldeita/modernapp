@@ -10,10 +10,10 @@ use App\User;
 
 class UserController extends Controller
 {
-    protected $create 	= 2;
-    protected $view 	= 5;
-    protected $update 	= 3;
-    protected $delete 	= 4;
+    protected $view     = 4;
+    protected $create 	= 5;
+    protected $update 	= 6;
+    protected $delete 	= 7;
 
     public function index(){
 

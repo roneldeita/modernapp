@@ -15,8 +15,8 @@ use App\Method;
 class AccessController extends Controller
 {
 
-    protected $view     = 6;
-    protected $update   = 7;
+    protected $view     = 2;
+    protected $update   = 3;
 
     public function index(){
          
