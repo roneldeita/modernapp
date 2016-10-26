@@ -2,8 +2,8 @@
 
 @section('styles')
 	
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet" />
-
+	<link rel="stylesheet" type="text/css" href="{{ url('assets/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css') }}">
+	
 @endsection
 
 @section('content')
@@ -88,7 +88,7 @@
 
 @section('scripts')
 	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
+	<script src="{{ url('assets/bootstrap-switch-master/dist/js/bootstrap-switch.min.js') }}"></script>
 
 	<script type="text/javascript">
 
