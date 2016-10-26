@@ -109,7 +109,7 @@
 			$.ajax({
 
 				type:"GET",
-				url: "/admincontrol/access/methods",
+				url: "{{ url('/admincontrol/access/methods') }}",
 				data : { 
 					"id": id,
 					"_token": csrf
@@ -154,7 +154,7 @@
 			
 			$.ajax({
 				type:"GET",
-				url: "/admincontrol/access/user",
+				url: "{{ url('/admincontrol/access/user') }}",
 				data :{
 					"id": id,
 					"_token": csrf
@@ -190,7 +190,7 @@
 			if(state === true){
 				$.ajax({
 					type:"POST",
-					url:"/admincontrol/access/add",
+					url:"{{ url('/admincontrol/access/add') }}",
 					data :{
 						"user_id":userId,
 						"method_id":methodId,
@@ -207,7 +207,7 @@
 			}else{
 				$.ajax({
 					type:"POST",
-					url:"/admincontrol/access/remove",
+					url:"{{ url('/admincontrol/access/remove') }}",
 					data :{
 						"user_id":userId,
 						"method_id":methodId,
