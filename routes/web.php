@@ -42,6 +42,14 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 
 		Route::get('/', 'UserController@index');
 
+		Route::get('/data', 'UserController@data');
+
+		Route::post('/create', 'UserController@create');
+
+		Route::post('/update', 'UserController@update');
+
+		Route::post('/remove', 'UserController@remove');
+
 	});
 
 });

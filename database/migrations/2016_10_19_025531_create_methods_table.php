@@ -15,7 +15,7 @@ class CreateMethodsTable extends Migration
     {
         Schema::create('methods', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('module_id')->references('id')->on('modules')->onDelete('cascade');
+            $table->integer('module_id');
             $table->string('name');
             $table->timestamps();
         });
