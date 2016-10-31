@@ -102,8 +102,8 @@
 
 		select_module.on('change', function(){
 
-			$('select[name=user] option:selected').prop('selected', false);
-			$('select[name=user] option:first').prop('selected', 'selected');
+			//$('select[name=user] option:selected').prop('selected', false);
+			//$('select[name=user] option:first').prop('selected', 'selected');
 
 			var id = $(this).val();
 			$.ajax({
@@ -143,6 +143,12 @@
 						'disabled':true
 					});
 
+				},
+				complete: function(){
+					//trigger select user
+					var selected = $('select[name=user] option:selected').val();
+					$('select[name=user] option:first').prop('selected', 'selected');
+					$('select[name=user] option[value='+ selected +']').prop('selected','selected').change();
 				}
 			});
 
