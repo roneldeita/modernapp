@@ -9,4 +9,5 @@
 .sidebar-nav li a:hover,
 .sidebar-nav li.active {
   color: #000;
+  background-color:rgb(237, 237, 237);
 }

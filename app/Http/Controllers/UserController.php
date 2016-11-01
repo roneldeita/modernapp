@@ -83,15 +83,33 @@ class UserController extends Controller
 
         if (Gate::allows('access', $this->update)) {
 
-            $this->validate($request, [
-                'name'  =>'required|min:3|max:32',
-                'email' =>'required|email|unique:users'
-            ]);
+            //password
+            if(trim($request->password) == '' ){
 
+                $input =  $request->except('password');
+
+                $this->validate($request, [
+                    'name'  =>'required|min:3|max:32',
+                    'email' =>'required|email|unique:users,email,'.$request->user_id.',id'
+                ]);
+
+            }else{
+     
+               $input = $request->all();
+
+               $this->validate($request, [
+                    'name'      =>'required|min:3|max:32',
+                    'email'     =>'required|email|unique:users,email,'.$request->user_id.',id',
+                    'password'  =>'required|min:3|confirmed',
+                    'password_confirmation' =>'required|min:3',
+                ]);
+
+                $input['password'] = bcrypt($request->password);
+            }
 
             $user =User::findOrFail($request->user_id);
 
-            $user->update($request->all());
+            $user->update($input);
 
             $response = [ 'msg' =>' User updated successfully' ];
 
@@ -118,5 +136,6 @@ class UserController extends Controller
         }
 
     }
+
 
 }

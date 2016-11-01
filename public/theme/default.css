@@ -1,5 +1,5 @@
 #sidebar-wrapper {
-  background: #ccc;
+  background: #ededed;
 }
 
 .sidebar-nav li a {
@@ -9,4 +9,5 @@
 .sidebar-nav li a:hover,
 .sidebar-nav li.active {
   color: #337ab7;
+  background-color:rgb(209, 209, 209);
 }

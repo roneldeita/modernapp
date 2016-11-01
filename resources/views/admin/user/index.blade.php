@@ -97,14 +97,14 @@
 		 var sr 	 	=$('<span></span', {class:"sr-only", text:"Toggle Dropdown"});
 		 var btnLeft 	=$('<button></button>', { type:"button", class:"btn btn-sm btn-default", text:"Action"});
 		 var btnRight	=$('<button></button>', { type:"button", class:"btn btn-sm btn-info dropdown-toggle", 'data-toggle':"dropdown"}).append(caret, sr);
-		 var aChangePw 	=$('<a></a>',{ href:"javascript:;", text:"Change Password"});
-		 var liChangePw	=$('<li></li>').append(aChangePw);
+		 var aViewInfo 	=$('<a></a>',{ href:"javascript:;", text:"View Information", name:"view-info"});
+		 var liViewInfo =$('<li></li>').append(aViewInfo);
 		 var liDivider	=$('<li></li>',{class:"divider"});
 		 var aEdit	 	=$('<a></a>',{ href:"javascript:;", text:"Edit", name:"{{ $update ? 'edit-user' : null }}"});
 		 var liEdit  	=$('<li class="{{ $update ? null : "disabled" }}"></li>').append(aEdit);
 		 var aDelete 	=$('<a></a>',{ href:"javascript:;", text:"Delete", name:"{{ $delete ? 'delete-user' : null }}"});
 		 var liDelete	=$('<li class="{{ $delete ? null : "disabled" }}"></li>').append(aDelete);
-		 var ul 	 	=$('<ul></ul>',{class:"dropdown-menu", role:"menu"}).append(liChangePw, liDivider, liEdit , liDelete  );
+		 var ul 	 	=$('<ul></ul>',{class:"dropdown-menu", role:"menu"}).append(liEdit , liDelete, liDivider, liViewInfo);
 		 var btnGrp  	=$('<div></div>', { class:"btn-group"}).append(btnLeft, btnRight, ul);
 
 		$(function(){
@@ -182,6 +182,8 @@
 						mform.append(csrf,
 						nameFrmGrp.append(nameTxt.val(name)),
 						emailFrmGrp.append(emailTxt.val(email)),
+						pwFrmGrp.append(pwField),
+						pwCfFrmGrp.append(pwCfField),
 						idFrmGrp.append(idField.val(id))
 					));
 				mFooter.append(updateBtn);
