@@ -52,5 +52,17 @@ class MethodsTableSeeder extends Seeder
         	'module_id'=>3,
         	'name'=>'Delete User'
         ]);
+
+        DB::table('methods')->insert([
+            'id'=>8,
+            'module_id'=>4,
+            'name'=>'View Appearance'
+        ]);
+
+        DB::table('methods')->insert([
+            'id'=>9,
+            'module_id'=>4,
+            'name'=>'Change Theme'
+        ]);
     }
 }

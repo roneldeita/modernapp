@@ -175,7 +175,7 @@
 
 					$.each(data[0], function(key, value){
 						//turn the switch to yes/true if found access
-					 	var method = $('.methods').find('input#'+value['id']).prop('checked', true).bootstrapSwitch('state', true, true);
+					 	$('.methods').find('input#'+value['id']).prop('checked', true).bootstrapSwitch('state', true, true);
 
 					});
 					

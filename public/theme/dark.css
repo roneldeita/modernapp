@@ -1,0 +1,12 @@
+#sidebar-wrapper {
+  background: #000;
+}
+
+.sidebar-nav li a {
+  color: #999999;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li.active {
+  color: #fff;
+}

@@ -13,8 +13,8 @@ class ModulesTableSeeder extends Seeder
     {
         DB::table('modules')->insert([
         	'id'=>1,
-        	'name'=>'Administrator',
-        	'description'=>'can be able to view the admin panel'
+        	'name'=>'Administration',
+        	'description'=>'View admin area'
         ]);
 
         DB::table('modules')->insert([
@@ -27,6 +27,12 @@ class ModulesTableSeeder extends Seeder
         	'id'=>3,
         	'name'=>'Users',
         	'description'=>'User management'
+        ]);
+
+        DB::table('modules')->insert([
+            'id'=>4,
+            'name'=>'Appearance',
+            'description'=>'Appearance settings'
         ]);
 
     }

@@ -22,8 +22,8 @@ class AccessController extends Controller
          
         if (Gate::allows('access', $this->view)) {
 
-            $modules = Module::all();
-            $users = User::all();
+            $modules = Module::orderBy('name','asc')->get();
+            $users = User::orderBy('name','asc')->get();
 
             return view('admin.access.index', compact('modules', 'users'));
 

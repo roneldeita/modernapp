@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'theme_id', 'name', 'email', 'password',
     ];
 
     protected $appends = ['created', 'updated'];
@@ -31,6 +31,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function theme(){
+
+        return $this->belongsTo('App\Theme');
+    
+    }
 
     public function methods(){
 

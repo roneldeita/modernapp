@@ -17,6 +17,8 @@
     <link href="{{ url('/css/app.css') }}" rel="stylesheet">
 
     <link href="{{ url('/css/admin.css') }}" rel="stylesheet">
+
+    <link href="{{ url(Auth::user()->theme->css_path) }}.css" rel="stylesheet" type="text/css">
     @yield('styles')
 
     <!-- Scripts -->
@@ -36,13 +38,16 @@
                 <nav id="spy">
                     <ul class="sidebar-nav nav">
                         <li>
-                            <a href="{{ url('/admincontrol') }}"><span class="fa fa-dashboard"></span> Administrative</a>
+                            <a href="{{ url('/admincontrol') }}"><span class="fa fa-dashboard"></span> Dashboard</a>
                         </li>
                         <li>
                             <a href="{{ url('/admincontrol/access') }}"><span class="fa fa-wrench"></span> Access</a>
                         </li>
                         <li>
                             <a href="{{ url('/admincontrol/user') }}"><span class="fa fa-user"></span> User</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admincontrol/appearance') }}"><span class="fa fa-diamond"></span> Appearance</a>
                         </li>
                         <li>
                             <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

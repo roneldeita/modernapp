@@ -52,4 +52,14 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 
 	});
 
+	Route::group(['prefix'=>'appearance'], function(){
+
+		Route::get('/', 'AppearanceController@index');
+
+		Route::get('/usertheme', 'AppearanceController@user_theme');
+
+		Route::post('changetheme', 'AppearanceController@change_theme');
+
+	});
+
 });
