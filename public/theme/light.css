@@ -1,13 +1,25 @@
+body{
+	background: #fff;
+}
+
 #sidebar-wrapper {
-  background: #cccccc;
+	background: #e6e6e6;
 }
 
 .sidebar-nav li a {
-  color: #666666;
+	color: #666666;
 }
 
 .sidebar-nav li a:hover,
 .sidebar-nav li.active {
-  color: #000;
-  background-color:rgb(237, 237, 237);
+	color: #000;
+	background-color:rgb(204, 204, 204);
+}
+
+#menu-toggle {
+	color: #808080;
+}
+
+#menu-toggle:hover{
+	color: #666666;
 }

@@ -1,13 +1,13 @@
 #sidebar-wrapper {
-  background: #ededed;
+	background: #ededed;
 }
 
 .sidebar-nav li a {
-  color: #286090;
+	color: #286090;
 }
 
 .sidebar-nav li a:hover,
 .sidebar-nav li.active {
-  color: #337ab7;
-  background-color:rgb(209, 209, 209);
+	color: #337ab7;
+	background-color:rgb(217, 217, 217);
 }

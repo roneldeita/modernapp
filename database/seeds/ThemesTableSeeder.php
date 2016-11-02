@@ -14,20 +14,20 @@ class ThemesTableSeeder extends Seeder
         DB::table('themes')->insert([
         	'id'=>1,
         	'name'=>'Default',
-        	'css_path'=>'default'
+        	'css_path'=>'theme/default'
         ]);
 
         DB::table('themes')->insert([
         	'id'=>2,
         	'name'=>'Dark',
-        	'css_path'=>'dark'
+        	'css_path'=>'theme/dark'
 
         ]);
 
         DB::table('themes')->insert([
             'id'=>3,
             'name'=>'Light',
-            'css_path'=>'light'
+            'css_path'=>'theme/light'
 
         ]);
     }
