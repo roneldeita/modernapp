@@ -8,42 +8,34 @@
 
 		<div class="col-md-12">
 
-			<div class="row">
+			<div class = "page-header">
 
-				<div class="col-md-12">
+				<h1>Appearance</h1>
+				
+			</div>
 
-					<div class = "page-header">
+		</div>
 
-						<h1>Appearance</h1>
-						
-					</div>
+		<div class="col-md-8">
 
-				</div>
+			<h4>Theme</h4>
 
-				<div class="col-md-8">
+			<div name="themes">
 
-					<h4>Theme</h4>
+				@foreach($themes as $theme)
 
-					<div name="themes">
+					<div class="radio" style="margin-left:10px">
 
-						@foreach($themes as $theme)
+                        <label>
 
-							<div class="radio" style="margin-left:10px">
+							<input type="radio" name="theme" id="{{ $theme->id }}" {{ $change_theme ? 'disabled' : null }}>
+							{{ $theme->name }}
 
-                                <label>
-
-									<input type="radio" name="theme" id="{{ $theme->id }}" {{ $change_theme ? 'disabled' : null }}>
-									{{ $theme->name }}
-
-								</label>
-
-							</div>
-
-						@endforeach
+						</label>
 
 					</div>
 
-				</div>
+				@endforeach
 
 			</div>
 

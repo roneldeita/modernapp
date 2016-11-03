@@ -23,6 +23,14 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 
 	Route::get('/', 'AdminController@index');
 
+	Route::group(['prefix'=>'post'], function(){
+
+		Route::get('/', 'PostController@index');	
+
+		Route::get('/data', 'PostController@data');	
+
+	});
+
 	Route::group(['prefix'=>'access'], function(){
 
 		Route::get('/', 'AccessController@index');
@@ -51,7 +59,7 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 		Route::post('/remove', 'UserController@remove');
 
 	});
-
+	
 	Route::group(['prefix'=>'appearance'], function(){
 
 		Route::get('/', 'AppearanceController@index');

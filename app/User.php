@@ -32,6 +32,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function posts(){
+
+        return $this->hasMany('App\Post');
+
+    }
+
     public function theme(){
 
         return $this->belongsTo('App\Theme');

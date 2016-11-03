@@ -52,8 +52,6 @@ class UserController extends Controller
 
         return response()->json($users);
 
-         //return $users;
-
     }
 
     public function create(Request $request){

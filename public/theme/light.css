@@ -6,14 +6,19 @@ body{
 	background: #e6e6e6;
 }
 
-.sidebar-nav li a {
+.sidebar-nav li a{
 	color: #666666;
 }
 
 .sidebar-nav li a:hover,
-.sidebar-nav li.active {
+.sidebar-nav li.active,
+.sidebar-nav li.dropdown a:hover {
 	color: #000;
 	background-color:rgb(204, 204, 204);
+}
+
+.sidebar-nav li.divider hr{
+	 background-color: #cccccc; height: 1px; border: 0;
 }
 
 #menu-toggle {

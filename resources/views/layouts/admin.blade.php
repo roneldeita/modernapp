@@ -12,7 +12,7 @@
 
     <!-- Styles -->
 
-    <link href="{{ url('/assets/font-awesome-4.6.3/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('/assets/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
     <link href="{{ url('/css/app.css') }}" rel="stylesheet">
 
@@ -40,14 +40,25 @@
                         <li>
                             <a href="{{ url('/admincontrol') }}"><span class="fa fa-dashboard"></span> Dashboard</a>
                         </li>
-                        <li>
-                            <a href="{{ url('/admincontrol/access') }}"><span class="fa fa-wrench"></span> Access</a>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="{{ url('/admincontrol/post') }}" aria-expanded="false">
+                                <span class="fa fa-comment"></span> Post <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                              <li><a href="{{ url('/admincontrol/post') }}">View All</a></li>
+                              <li><a href="#">Category</a></li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="{{ url('/admincontrol/user') }}"><span class="fa fa-user"></span> User</a>
+                            <a href="{{ url('/admincontrol/access') }}"><span class="fa fa-id-card"></span> Access</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admincontrol/user') }}"><span class="fa fa-user-circle"></span> User</a>
                         </li>
                         <li>
                             <a href="{{ url('/admincontrol/appearance') }}"><span class="fa fa-diamond"></span> Appearance</a>
+                        </li>
+                        <li class="divider">
+                            <hr>
                         </li>
                         <li>
                             <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

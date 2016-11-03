@@ -309,6 +309,13 @@
 
 						$('td[name=action]').append(btnGrp);
 
+					},
+					error: function(){
+
+						tbody.empty();
+
+						tbody.append($('<tr></tr>').append(
+							$('<td></td>',{ text:"Error", colspan:"100%", align:"center" })));
 					}
 
 				});

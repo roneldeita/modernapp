@@ -2,12 +2,17 @@
 	background: #ededed;
 }
 
-.sidebar-nav li a {
+.sidebar-nav li a{
 	color: #286090;
 }
 
 .sidebar-nav li a:hover,
-.sidebar-nav li.active {
+.sidebar-nav li.active,
+.sidebar-nav li.dropdown a:hover {
 	color: #337ab7;
 	background-color:rgb(217, 217, 217);
+}
+
+.sidebar-nav li.divider hr{
+	 background-color: #d9d9d9; height: 1px; border: 0;
 }

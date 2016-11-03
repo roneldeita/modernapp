@@ -10,75 +10,67 @@
 
 	<div class="container">
 
-	<div class="row">
+		<div class="row">
 
-		<div class="col-md-12">
+			<div class="col-md-12">
 
-			<div class="row">
+				<div class = "page-header">
 
-				<div class="col-md-12">
-
-					<div class = "page-header">
-
-						<h1>Manage Access</h1>
-						
-					</div>
-
-				</div>
-				
-				<div class="col-md-4">
-
-					<div class="form-goup">
-						<label for="module">Module</label>
-						<select name="module" id="module" class="form-control">
-							<option value="0">Select a module</option>
-
-							@foreach($modules as $module)
-
-								<option value="{{ $module->id }}">{{ $module->name }}</option>
-
-							@endforeach
-
-						</select>
-					</div>
-
+					<h1>Manage Access</h1>
+					
 				</div>
 
-				<div class="col-md-4">
+			</div>
+			
+			<div class="col-md-4">
 
-					<div class="form-goup">
-						<label for="user">User</label>
-						<select name="user" id="user" class="form-control">
-							<option value="0">Select a user</option>
+				<div class="form-goup">
+					<label for="module">Module</label>
+					<select name="module" id="module" class="form-control">
+						<option value="0">Select a module</option>
 
-							@foreach($users as $user)
+						@foreach($modules as $module)
 
-								<option value="{{ $user->id }}">{{ $user->name }}</option>
+							<option value="{{ $module->id }}">{{ $module->name }}</option>
 
-							@endforeach
+						@endforeach
 
-						</select>
-					</div>
-
-				</div>
-
-				<div class="col-md-12">
-					<br>
-					<table class="table table-hover">
-						<thead>
-							<th style="width:600px">Methods</th>
-							<th>Grant</th>
-						</thead>
-						<tbody class="methods">
-							
-						</tbody>
-					</table>
-
+					</select>
 				</div>
 
 			</div>
 
-		</div>
+			<div class="col-md-4">
+
+				<div class="form-goup">
+					<label for="user">User</label>
+					<select name="user" id="user" class="form-control">
+						<option value="0">Select a user</option>
+
+						@foreach($users as $user)
+
+							<option value="{{ $user->id }}">{{ $user->name }}</option>
+
+						@endforeach
+
+					</select>
+				</div>
+
+			</div>
+
+			<div class="col-md-12">
+				<br>
+				<table class="table table-hover">
+					<thead>
+						<th style="width:600px">Methods</th>
+						<th>Grant</th>
+					</thead>
+					<tbody class="methods">
+						
+					</tbody>
+				</table>
+
+			</div>
 
 		</div>
 		
