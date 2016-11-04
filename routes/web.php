@@ -25,9 +25,17 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 
 	Route::group(['prefix'=>'post'], function(){
 
-		Route::get('/', 'PostController@index');	
+		Route::get('/', 'PostController@index');
 
-		Route::get('/data', 'PostController@data');	
+		Route::get('/data', 'PostController@data');
+
+		Route::group(['prefix'=>'category'], function(){
+
+			Route::get('/', 'PostcategoryController@index');
+
+			Route::get('/data', 'PostcategoryController@data');
+
+		});
 
 	});
 

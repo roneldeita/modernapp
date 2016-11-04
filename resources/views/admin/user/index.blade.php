@@ -21,7 +21,7 @@
 				<div>
 
 					<button type="button" class="btn btn-sm btn-primary" name="new-user" {{ $create ? null : 'disabled' }}>
-						<span class="fa fa-plus-circle"></span> New User
+						<span class="fa fa-plus-circle"></span> New User 
 					</button>
 				
 				</div>
@@ -55,6 +55,8 @@
 @endsection
 
 @section('scripts')
+	
+	<script type="text/javascript" src="{{ url('assets/jquery-ui-1.12.1/jquery-ui.min.js') }}"></script>
 
 	<script type="text/javascript">
 
@@ -65,7 +67,8 @@
 		/*
 		 * for the Modal
 		 */
-	 	var modal 		= $('#adminModal');
+	 	var modal 		= $('#adminModal').modal({show:false, backdrop:'static'});
+	 	var modalDiag   = $('.modal-dialog').draggable({handle: ".modal-header" });
 		var mTitle 		= $('h4.modal-title');
 		var mBody 		= $('div.modal-body');
 		var mNotif 		= $('div.modal-notification');
@@ -139,7 +142,7 @@
 						},
 						success: function(data, textStatus , jqXHR){
 
-							mNotif.append($('<ul></ul>', {name:"success-msgs", class:"text-success", style:"list-style:none"}));
+							mNotif.append($('<ul></ul>', {name:"success-msgs", class:"text-success text-center", style:"list-style:none; margin-left:-12px"}));
 
 							$.each(data, function(key, value){
 
@@ -201,7 +204,7 @@
 						},
 						success: function(data, textStatus , jqXHR){
 
-							mNotif.append($('<ul></ul>', {name:"success-msgs", class:"text-success", style:"list-style:none"}));
+							mNotif.append($('<ul></ul>', {name:"success-msgs", class:"text-success text-center", style:"list-style:none; margin-left:-12px"}));
 
 							$.each(data, function(key, value){
 

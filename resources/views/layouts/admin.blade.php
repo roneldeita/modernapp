@@ -45,7 +45,7 @@
                                 <span class="fa fa-comment"></span> Post <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                               <li><a href="{{ url('/admincontrol/post') }}">View All</a></li>
-                              <li><a href="#">Category</a></li>
+                              <li><a href="{{ url('/admincontrol/post/category') }}">Category</a></li>
                             </ul>
                         </li>
                         <li>

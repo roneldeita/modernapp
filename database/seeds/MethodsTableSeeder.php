@@ -64,5 +64,53 @@ class MethodsTableSeeder extends Seeder
             'module_id'=>4,
             'name'=>'Change Theme'
         ]);
+
+        DB::table('methods')->insert([
+            'id'=>10,
+            'module_id'=>5,
+            'name'=>'View Post'
+        ]);
+
+        DB::table('methods')->insert([
+            'id'=>11,
+            'module_id'=>5,
+            'name'=>'Add Post'
+        ]);
+
+        DB::table('methods')->insert([
+            'id'=>12,
+            'module_id'=>5,
+            'name'=>'Edit Post'
+        ]);
+
+        DB::table('methods')->insert([
+            'id'=>13,
+            'module_id'=>5,
+            'name'=>'Delete Post'
+        ]);
+
+        DB::table('methods')->insert([
+            'id'=>14,
+            'module_id'=>6,
+            'name'=>'View Post Category'
+        ]);
+
+        DB::table('methods')->insert([
+            'id'=>15,
+            'module_id'=>6,
+            'name'=>'Add Post Category'
+        ]);
+
+        DB::table('methods')->insert([
+            'id'=>16,
+            'module_id'=>6,
+            'name'=>'Edit Post Category'
+        ]);
+
+        DB::table('methods')->insert([
+            'id'=>17,
+            'module_id'=>6,
+            'name'=>'Delete Post Category'
+        ]);
     }
 }

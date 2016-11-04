@@ -35,5 +35,17 @@ class ModulesTableSeeder extends Seeder
             'description'=>'Appearance settings'
         ]);
 
+        DB::table('modules')->insert([
+            'id'=>5,
+            'name'=>'Post',
+            'description'=>'Manage Posts'
+        ]);
+
+        DB::table('modules')->insert([
+            'id'=>6,
+            'name'=>'Post Category',
+            'description'=>'Manage Post Categories'
+        ]);
+
     }
 }
