@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Postcategory;
 use Illuminate\Support\Facades\Gate;
+use App\Postcategory;
 
 class PostcategoryController extends Controller
 {
@@ -16,31 +16,29 @@ class PostcategoryController extends Controller
     
     public function index(){
 
-    	$access =(object) [
-    			'create'=>true,
-    			'update'=>true,
-    			'delete'=>true
-    		];
+    	$create = true;
+        $update = true;
+        $delete = true;
 
         if (!Gate::allows('access', $this->create)) {
 
-           $access->create=false;
+           $create=false;
         }
 
         if (!Gate::allows('access', $this->update)) {
 
-            $access->update=false;
+            $update=false;
         }
 
         if (!Gate::allows('access', $this->delete)) {
 
-            $access->delete=false;
+            $delete=false;
 
         }
 
     	if(Gate::allows('access', $this->view)){
 
-    		return view('admin.post.category.index', compact('access'));
+    		return view('admin.post.category.index', compact('create', 'update', 'delete'));
 
     	}
 
@@ -50,9 +48,50 @@ class PostcategoryController extends Controller
 
     public function data(){
 
-    	$categories = Postcategory::all();
+    	$categories = Postcategory::paginate(5);
 
-    	return response()->json($categories);
+    	return response()->json(array( 
+            'data'=> $categories, 
+            'pagination' => (string) $categories->links()
+            ));
+
+    }
+
+    public function create(Request $request){
+
+         if (Gate::allows('access', $this->create)) {
+
+            $this->validate($request, [
+                'name' => 'required|min:3|max:32'
+            ]);
+
+            Postcategory::create($request->all());
+
+            $response = [ 'msg' => 'New Category for Post created successfully' ];
+
+            return response()->json($response);
+
+         }
+
+    }
+
+    public function update(Request $request){
+
+        if (Gate::allows('access', $this->update)) {
+
+            $this->validate($request, [
+                'name' => 'required|min:3|max:32'
+            ]);
+
+            $postcategory = Postcategory::findOrFail($request->user_id);
+
+            $postcategory->update($request->all());
+
+            $response = [ 'msg' => 'Post Category Updated successfully' ];
+
+            return response()->json($response);
+
+        }
 
     }
 

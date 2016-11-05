@@ -20,7 +20,7 @@
 				
 				<div>
 
-					<button type="button" class="btn btn-sm btn-primary" name="new-user" {{ $create ? null : 'disabled' }}>
+					<button type="button" class="btn btn-sm {{ $create ? 'btn-primary' : 'btn-default' }}" name="new-user" {{ $create ? null : 'disabled' }}>
 						<span class="fa fa-plus-circle"></span> New User 
 					</button>
 				
@@ -64,6 +64,7 @@
 		 * for the Users Table
 		 */
 		var tbody 		= $('table[name=users-table]').find('tbody');
+		var newBtn		= $('button[name=new-user]');
 		/*
 		 * for the Modal
 		 */
@@ -96,25 +97,29 @@
 		 * For dropdown overlay table cell
 		 * 
 		 */
-		 var caret		=$('<span></span', {class:"caret"});
-		 var sr 	 	=$('<span></span', {class:"sr-only", text:"Toggle Dropdown"});
-		 var btnLeft 	=$('<button></button>', { type:"button", class:"btn btn-sm btn-default", text:"Action"});
-		 var btnRight	=$('<button></button>', { type:"button", class:"btn btn-sm btn-info dropdown-toggle", 'data-toggle':"dropdown"}).append(caret, sr);
-		 var aViewInfo 	=$('<a></a>',{ href:"javascript:;", text:"View Information", name:"view-info"});
-		 var liViewInfo =$('<li></li>').append(aViewInfo);
-		 var liDivider	=$('<li></li>',{class:"divider"});
-		 var aEdit	 	=$('<a></a>',{ href:"javascript:;", text:"Edit", name:"{{ $update ? 'edit-user' : null }}"});
-		 var liEdit  	=$('<li class="{{ $update ? null : "disabled" }}"></li>').append(aEdit);
-		 var aDelete 	=$('<a></a>',{ href:"javascript:;", text:"Delete", name:"{{ $delete ? 'delete-user' : null }}"});
-		 var liDelete	=$('<li class="{{ $delete ? null : "disabled" }}"></li>').append(aDelete);
-		 var ul 	 	=$('<ul></ul>',{class:"dropdown-menu", role:"menu"}).append(liEdit , liDelete, liDivider, liViewInfo);
-		 var btnGrp  	=$('<div></div>', { class:"btn-group"}).append(btnLeft, btnRight, ul);
+		 var caret		= $('<span></span', {class:"caret"});
+		 var sr 	 	= $('<span></span', {class:"sr-only", text:"Toggle Dropdown"});
+		 var btnLeft 	= $('<button></button>', { type:"button", class:"btn btn-sm btn-default", text:"Action"});
+		 var btnRight	= $('<button></button>', { type:"button", class:"btn btn-sm btn-info dropdown-toggle", 'data-toggle':"dropdown"}).append(caret, sr);
+		 var aViewInfo 	= $('<a></a>',{ href:"javascript:;", text:"View Information", name:"view-info"});
+		 var liViewInfo = $('<li></li>').append(aViewInfo);
+		 var liDivider	= $('<li></li>',{class:"divider"});
+		 var aEdit	 	= $('<a></a>',{ href:"javascript:;", text:"Edit", name:"{{ $update ? 'edit-user' : null }}"});
+		 var liEdit  	= $('<li></li>', {class:"{{ $delete ? null : "disabled" }}"}).append(aEdit);
+		 var aDelete 	= $('<a></a>',{ href:"javascript:;", text:"Delete", name:"{{ $delete ? 'delete-user' : null }}"});
+		 var liDelete	= $('<li></li>', {class:"{{ $delete ? null : "disabled" }}"}).append(aDelete);
+		 var ul 	 	= $('<ul></ul>',{class:"dropdown-menu", role:"menu"}).append(liEdit , liDelete, liDivider, liViewInfo);
+		 var btnGrp  	= $('<div></div>', { class:"btn-group"}).append(btnLeft, btnRight, ul);
 
 		$(function(){
-
+			//loadData
 			loadData();
+			//prevent form submission
+			mform.on('submit', function(e){
+				e.preventDefault();
+			});
 
-			$('button[name=new-user]').on('click', function(){
+			newBtn.on('click', function(){
 				
 				cleanModal();
 				
@@ -134,15 +139,16 @@
 					$.ajax({
 						type:"POST",
 						url:"{{ url('/admincontrol/user/create') }}",
-						data: $('form[name=form-user]').serializeArray(),
+						data: mform.serializeArray(),
 						dataType: "JSON",
 						beforeSend: function(){
 
 							cleanNotification();
+
 						},
 						success: function(data, textStatus , jqXHR){
 
-							mNotif.append($('<ul></ul>', {name:"success-msgs", class:"text-success text-center", style:"list-style:none; margin-left:-12px"}));
+							mNotif.append($('<ul></ul>', {name:"success-msgs", class:"text-success text-center", style:"list-style:none"}));
 
 							$.each(data, function(key, value){
 
@@ -197,14 +203,14 @@
 					$.ajax({
 						type:"POST",
 						url:"{{ url('/admincontrol/user/update') }}",
-						data: $('form[name=form-user]').serializeArray(),
+						data: mform.serializeArray(),
 						dataType: "JSON",
 						beforeSend: function(){
 							cleanNotification();
 						},
 						success: function(data, textStatus , jqXHR){
 
-							mNotif.append($('<ul></ul>', {name:"success-msgs", class:"text-success text-center", style:"list-style:none; margin-left:-12px"}));
+							mNotif.append($('<ul></ul>', {name:"success-msgs", class:"text-success text-center", style:"list-style:none"}));
 
 							$.each(data, function(key, value){
 
@@ -256,7 +262,7 @@
 					$.ajax({
 						type:"POST",
 						url:"{{ url('/admincontrol/user/remove') }}",
-						data: $('form[name=form-user]').serializeArray(),
+						data: mform.serializeArray(),
 						dataType: "JSON",
 						beforeSend: function(){
 

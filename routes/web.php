@@ -35,6 +35,10 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 
 			Route::get('/data', 'PostcategoryController@data');
 
+			Route::post('/create', 'PostcategoryController@create');
+
+			Route::post('/update', 'PostcategoryController@update');
+
 		});
 
 	});
