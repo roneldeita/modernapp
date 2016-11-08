@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Postcategory;
+use App\Post;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $postcategories = Postcategory::pluck('name', 'id')->all();
+
+        return view('home', compact('postcategories'));
+    }
+
+    public function posts(){
+
+        $posts = Post::all();
+
+        return $posts;
     }
 }

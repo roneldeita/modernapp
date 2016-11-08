@@ -18,24 +18,41 @@
 
 			<div class="col-md-3">
 				
-				<div>
-
+				<div class="form-group">
+					
 					<button type="button" class="btn btn-sm {{ $create ? 'btn-primary' : 'btn-default' }}" name="new-postcategory" {{ $create ? null : 'disabled' }}>
 						<span class="fa fa-plus-circle"></span> New Category
 					</button>
-				
+	
 				</div>
 
 			</div>
 
+			<div class="col-md-3 col-md-offset-6">
+
+				<div class="form-group">
+
+					<div class="input-group input-group-sm">
+
+						<input type="text" name="search" class="form-control">
+						<div class="input-group-btn">
+							<button class="btn btn-default" name="search-btn">Search</button>
+						</div>
+
+					</div>
+
+				</div>
+				
+			</div>
+
 			<div class="col-md-12">
 
-				<table class="table table-hover" name="postcategory-table">
+				<table class="table table-condensed table-hover" name="postcategory-table">
 					<thead>
 						<tr>
-							<th>Name</th>
-							<th>Created</th>
-							<th>Updated</th>
+							<th style="width:30%">Name</th>
+							<th style="width:30%">Created</th>
+							<th style="width:30%">Updated</th>
 							<th>&nbsp;</th>
 						</tr>
 					</thead>
@@ -46,7 +63,7 @@
 			</div>
 
 			<div class="col-md-12">
-				<div id="pagination" data-active=""></div>
+				<div id="pagination" data-active="" data-last=""></div>
 			</div>
 
 		</div>
@@ -67,6 +84,8 @@
 		*/
 		var tbody 		= $('table[name=postcategory-table]').find('tbody');
 		var newBtn		= $('button[name=new-postcategory]');
+		var srchBtn		= $('button[name=search-btn]');
+		var srchField	= $('input[name=search]');
 		var pagination 	= $('div#pagination');
 		/*
 		 * for the Modal
@@ -138,7 +157,7 @@
 
 							});
 
-							loadPostCategory();
+							loadPostCategory(1);
 							mform.trigger('reset');
 
 						},
@@ -202,7 +221,7 @@
 
 							});
 
-							loadPostCategory(pagination.attr('data-active'));
+							loadPostCategory(pagination.attr('data-active'), srchField.val());
 
 						},
 						error: function(xhr, status, error){
@@ -225,49 +244,74 @@
 				});
 
 			});
-			
 
+			//search
+			srchBtn.on('click', function(){
+
+				loadPostCategory(1, srchField.val());
+
+			});			
+			
+			//pagination
 			$(document).on('click', 'ul.pagination a', function(e){
 				e.preventDefault();
 
 				var page = $(this).attr('href').split('page=')[1];
 
 
-				loadPostCategory(page);
+				loadPostCategory(page, srchField.val());
 
 			});
 
-
-			function loadPostCategory(page){
+			//load data
+			function loadPostCategory(page, search){
 
 				$.ajax({
 					type:"GET",
 					url:"{{ url('/admincontrol/post/category/data?page=') }}"+page,
 					data:{
-						"_token":"{{ csrf_token() }}"
+						"_token":"{{ csrf_token() }}",
+						"search":search
 					},
 					dataType:"JSON",
+					beforeSend: function(){
+						tbody.empty();
+						tbody.append($('<tr></tr>').append(
+							$('<td></td>',{ text:"Loading...", colspan:"100%", align:"center", class:"text-success" })));
+					},
 					success:function(data){
 
 						tbody.empty();
 
-						//console.log(data['data']['current_page']);
 						pagination.attr('data-active', data['data']['current_page']);
+						pagination.attr('data-last', data['data']['current_page']);
 
-						$.each(data['data']['data'], function(key, value){
+						if(data['data']['data'].length > 0){
+
+							$.each(data['data']['data'], function(key, value){
+
+								tbody.append($('<tr></tr>').append(
+									$('<td></td>',{ text:value['name'], style:'font-weight:bold'}),
+									$('<td></td>',{ text:value['created'] }),
+									$('<td></td>',{ text:value['updated'] }),
+									$('<td></td>',{
+										'class':'text-right',
+										'name':"action",
+										'data-id':value['id'],
+										'data-name':value['name']
+									})
+								));
+
+							});
+
+						}else{
 
 							tbody.append($('<tr></tr>').append(
-								$('<td></td>',{ text:value['name'], style:'font-weight:bold'}),
-								$('<td></td>',{ text:value['created'] }),
-								$('<td></td>',{ text:value['updated'] }),
-								$('<td></td>',{
-									'name':"action",
-									'data-id':value['id'],
-									'data-name':value['name']
-								})
-							));
+							$('<td></td>',{ text:"No results", colspan:"100%", align:"center", class:"text-danger"  })));
 
-						});
+						}
+
+						
 
 						$('td[name=action]').append(btnEdit);
 

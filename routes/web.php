@@ -11,11 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('/home');
-});
+
 
 Auth::routes();
+
+Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index');
 
@@ -28,6 +28,8 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 		Route::get('/', 'PostController@index');
 
 		Route::get('/data', 'PostController@data');
+
+		Route::post('/create', 'PostController@create');
 
 		Route::group(['prefix'=>'category'], function(){
 

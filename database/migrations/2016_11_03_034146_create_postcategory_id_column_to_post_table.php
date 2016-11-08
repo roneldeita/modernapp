@@ -27,7 +27,7 @@ class CreatePostcategoryIdColumnToPostTable extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('postcategory_id');
+            $table->dropForeign('posts_postcategory_id_foreign');
         });
     }
 }

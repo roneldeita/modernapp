@@ -14,7 +14,7 @@ class Post extends Model
     	'body'
     ];
 
-    protected $appends = ['owner', 'category', 'created', 'updated'];
+    protected $appends = ['owner', 'shortbody', 'category', 'created', 'updated'];
 
     public function user(){
 
@@ -29,6 +29,12 @@ class Post extends Model
     }
 
     //example of accessors
+    public function getShortbodyAttribute(){
+
+        return str_limit($this->body, 75);
+
+    }
+
     public function getCreatedAttribute(){
 
         $created = Carbon::parse($this->created_at)->diffForHumans();

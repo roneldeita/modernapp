@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -32,9 +33,26 @@ class PostController extends Controller
 
     public function data(){
 
-    	$posts = Post::all();
+    	$posts = Post::orderBy('id','desc')->get();
 
     	return response()->json($posts);
+
+    }
+
+    public function create(Request $request){
+
+        $this->validate($request, [
+            'postcategory_id' => 'required',
+            'body' => 'required'
+            ]);
+
+        $user = Auth::user();
+        
+        $user->posts()->create($request->all());
+
+        $response = [ 'msg' => 'New Category for Post created successfully' ];
+
+        return response()->json($response);
 
     }
 

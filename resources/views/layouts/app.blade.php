@@ -11,8 +11,12 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ url('/css/app.css') }}" rel="stylesheet">
+    <link href="{{ url('/assets/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
+    <link href="{{ url('/css/app.css') }}" rel="stylesheet">
+    @if(Auth::user())
+    <link href="{{ url(Auth::user()->theme->css_path) }}.css" rel="stylesheet" type="text/css">
+    @endif
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([

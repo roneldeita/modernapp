@@ -14,7 +14,7 @@ class CreateThemeIdColumnToUserTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('theme_id')->unsigned()->nullable()->after('id');
+            $table->integer('theme_id')->unsigned()->default(1)->after('id');
             $table->foreign('theme_id')->references('id')->on('themes')->onDelete('cascade');
         });
     }
@@ -27,7 +27,7 @@ class CreateThemeIdColumnToUserTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('theme_id');
+            $table->dropForeign('users_theme_id_foreign');
         });
     }
 }

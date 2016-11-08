@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Input;
 use App\Postcategory;
 
 class PostcategoryController extends Controller
@@ -48,7 +49,9 @@ class PostcategoryController extends Controller
 
     public function data(){
 
-    	$categories = Postcategory::paginate(5);
+        $search = Input::get('search');
+
+    	$categories = Postcategory::where('name','like', '%'.$search.'%')->orderBy('id','desc')->paginate(5);
 
     	return response()->json(array( 
             'data'=> $categories, 
@@ -80,7 +83,7 @@ class PostcategoryController extends Controller
         if (Gate::allows('access', $this->update)) {
 
             $this->validate($request, [
-                'name' => 'required|min:3|max:32'
+                'name' => 'required|min:3|max:32|unique:postcategories'
             ]);
 
             $postcategory = Postcategory::findOrFail($request->user_id);

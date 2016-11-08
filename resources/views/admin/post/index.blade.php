@@ -21,11 +21,11 @@
 				<table class="table table-hover" name="posts-table">
 					<thead>
 						<tr>
-							<th>Title</th>
-							<th>Owner</th>
-							<th>Category</th>
-							<th>Created</th>
-							<th>Updated</th>
+							<th style="width:50%">Body</th>
+							<th style="width:10%">Owner</th>
+							<th style="width:10%">Category</th>
+							<th style="width:15%">Created</th>
+							<th style="width:15%">Updated</th>
 							<th>&nbsp;</th>
 						</tr>
 					</thead>
@@ -74,7 +74,7 @@
 					$.each(data, function(key, value){
 
 						tbody.append($('<tr></tr>').append(
-							$('<td></td>',{ text:value['title']}),
+							$('<td></td>',{ text:value['shortbody']}),
 							$('<td></td>',{ text:value['owner']}),
 							$('<td></td>',{ text:value['category'] }),
 							$('<td></td>',{ text:value['created'] }),
