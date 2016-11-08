@@ -71,7 +71,7 @@
 					
 					tbody.empty();
 
-					$.each(data, function(key, value){
+					$.each(data['data'], function(key, value){
 
 						tbody.append($('<tr></tr>').append(
 							$('<td></td>',{ text:value['shortbody']}),

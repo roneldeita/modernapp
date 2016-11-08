@@ -56,7 +56,7 @@ class PostcategoryController extends Controller
     	return response()->json(array( 
             'data'=> $categories, 
             'pagination' => (string) $categories->links()
-            ));
+        ));
 
     }
 
@@ -83,10 +83,10 @@ class PostcategoryController extends Controller
         if (Gate::allows('access', $this->update)) {
 
             $this->validate($request, [
-                'name' => 'required|min:3|max:32|unique:postcategories'
+                'name' => 'required|min:3|max:32|unique:postcategories,name,'.$request->postcategory_id.',id'
             ]);
 
-            $postcategory = Postcategory::findOrFail($request->user_id);
+            $postcategory = Postcategory::findOrFail($request->postcategory_id);
 
             $postcategory->update($request->all());
 

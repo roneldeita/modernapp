@@ -80,7 +80,7 @@
 	
 	<script type="text/javascript">
 		/*
-		* for the Users Table
+		* for the Postcategory Table
 		*/
 		var tbody 		= $('table[name=postcategory-table]').find('tbody');
 		var newBtn		= $('button[name=new-postcategory]');
@@ -107,7 +107,7 @@
 		var nameFrmGrp 	= $('<div></div>',{class:"form-group"}).append($('<label></label>', {for:"name", text:"Name"}));
 		var nameTxt 	= $('<input></input', {type:"text", name:"name", id:"name", class:"form-control"});
 		var idFrmGrp 	= $('<div></div>',{class:"form-group"});
-		var idField		= $('<input></input', {type:"hidden", name:"user_id", id:"user_id", class:"form-control"});
+		var idField		= $('<input></input', {type:"hidden", name:"postcategory_id", id:"postcategory_id", class:"form-control"});
 		/*
 		 * For Edit
 		 */

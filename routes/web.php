@@ -31,6 +31,8 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 
 		Route::post('/create', 'PostController@create');
 
+		Route::get('/inserted', 'PostController@inserted');
+
 		Route::group(['prefix'=>'category'], function(){
 
 			Route::get('/', 'PostcategoryController@index');

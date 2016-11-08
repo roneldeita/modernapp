@@ -7,6 +7,7 @@ use App\Post;
 use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class PostController extends Controller
 {
@@ -31,9 +32,19 @@ class PostController extends Controller
 
     }
 
+    public function inserted(){
+
+        $post_id = Input::get('id');
+
+        $post = Post::findOrFail($post_id);
+
+        return response()->json($post);
+
+    }
+
     public function data(){
 
-    	$posts = Post::orderBy('id','desc')->get();
+    	$posts = Post::orderBy('id','desc')->paginate(10);
 
     	return response()->json($posts);
 
@@ -48,9 +59,9 @@ class PostController extends Controller
 
         $user = Auth::user();
         
-        $user->posts()->create($request->all());
+        $id = $user->posts()->create($request->all())->id;
 
-        $response = [ 'msg' => 'New Category for Post created successfully' ];
+        $response = [ 'id' => $id ];
 
         return response()->json($response);
 

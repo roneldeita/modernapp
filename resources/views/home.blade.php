@@ -34,6 +34,10 @@
 
             <div id="posts"></div>
 
+            <div class="form-group text-center">
+                <a href="javascript:;" class="btn btn-sm btn-primary" name="load-more-btn" data-page="" style="display:none">Show More Posts</a>
+            </div>
+
         </div>
     </div>
 </div>
@@ -48,7 +52,8 @@
         var form            = $('form[name=create-post]');
         var notif           = $('div.notif-msg');
         //posts
-        var panel           =$('div#posts');
+        var panel           = $('div#posts');
+        var loadBtn         = $('a[name=load-more-btn]');
 
         form.on('submit', function(e){
             e.preventDefault();
@@ -71,7 +76,8 @@
                     },
                     success: function(data){
                         cleanForm();
-                        loadPosts();
+                        //loadPosts();
+                        prependPost(data['id']);
                     },
                     error: function(xhr, status, error){
 
@@ -91,41 +97,97 @@
                 });
 
             });
+            
+            //load more post
+            loadBtn.on('click', function(){
+                var nPage = $(this).attr('data-page');
+                loadPosts(nPage);
+            });
 
-            function loadPosts(){
+            //prepend new post
+            function prependPost(id){
+                $.ajax({
+                    type:"GET",
+                    url: "{{ url('admincontrol/post/inserted') }}",
+                    data:{
+                        "_token":"{{ csrf_token() }}",
+                        "id":id
+                    },
+                    dataType:"JSON",
+                    success: function(data){
 
-                console.log('triggered');
+                        panel.prepend(
+                            $('<div></div>', { id:data['id'], class:"panel panel-default"}).append(
+                                $('<div></div>', {class:"panel-body"}).append(
+                                    $('<div></div>').append(
+                                        $('<span></span>',{ class:"fa fa-user-circle", style:"padding: 0 3px 0 0"}),
+                                        $('<a></a>',{ text:data['owner'], href:"javascript:;" }),
+                                        $('<span></span>',{ text:data['created'], style:"font-size:12px", class:"text-muted pull-right"})
+                                    ),
+                                    $('<div></div>', {text:data['body'], style:"margin-top:10px"})
+                                )
+                            )
+                        );
+
+                    }
+
+                });
+            }
+
+            //loading posts
+            function loadPosts(page){
 
                 $.ajax({
                     type:"GET",
-                    url: "{{ url('admincontrol/post/data') }}",
+                    url: "{{ url('admincontrol/post/data?page=') }}"+page,
                     data:{
                         "_token":"{{ csrf_token() }}"
                     },
                     dataType:"JSON",
-                    beforeSend: function(){
-                        cleanForm();
-                    },
                     success: function(data){
-
-                        console.log(data);
                         
-                        $.each(data, function(key, value){
+                        $.each(data['data'], function(key, value){
 
-                            panel.append(
-                                $('<div></div>', { class:"panel panel-default"}).append(
-                                    $('<div></div>', {class:"panel-body"}).append(
-                                        $('<div></div>').append(
-                                            $('<span></span>',{ class:"fa fa-user-circle", style:"padding: 0 3px 0 0"}),
-                                            $('<a></a>',{ text:value['owner'], href:"javascript:;" }),
-                                            $('<span></span>',{ text:value['created'], style:"font-size:12px", class:"text-muted pull-right"})
-                                        ),
-                                        $('<div></div>', {text:value['body'], style:"margin-top:10px"})
+                            var LastPanelId =  panel.find('div.panel:last-child').attr('id');
+
+                            if(LastPanelId != value['id']){
+
+                                 panel.append(
+                                    $('<div></div>', { id:value['id'], class:"panel panel-default"}).append(
+                                        $('<div></div>', {class:"panel-body"}).append(
+                                            $('<div></div>').append(
+                                                $('<span></span>',{ class:"fa fa-user-circle", style:"padding: 0 3px 0 0"}),
+                                                $('<a></a>',{ text:value['owner'], href:"javascript:;" }),
+                                                $('<span></span>',{ text:value['created'], style:"font-size:12px", class:"text-muted pull-right"})
+                                            ),
+                                            $('<div></div>', {text:value['body'], style:"margin-top:10px"})
+                                        )
                                     )
-                                )
-                            );
+                                );
+
+                            }
+
+                            
+                            console.log(LastPanelId);
 
                         });
+
+                        var nextPage = data['next_page_url'];
+                        var lastPage = data['last_page'];
+
+                        if(nextPage===null){
+
+                            //hide load button
+                            loadBtn.hide();
+
+                        }else{
+
+                            //show load button
+                            var page = nextPage.split('page=')[1];
+
+                            loadBtn.attr('data-page', page).show();
+
+                        }
 
                     }
 
@@ -134,8 +196,6 @@
             }
 
             function cleanForm(){
-                panel.empty();
-                console.log(form);
                 form.trigger('reset');
 
             }
@@ -144,7 +204,6 @@
                 notif.empty();
             }
             
-
         });
         
     </script>
