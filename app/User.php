@@ -18,11 +18,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'theme_id', 'name', 'email', 'password',
+        'photo_id', 'theme_id', 'name', 'email', 'password',
     ];
 
-    protected $appends = ['created', 'updated'];
-
+    protected $appends = ['created', 'updated', 'profile_picture'];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -31,6 +30,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $photo_dir ='/images/profile_picture/';
+    protected $avatar    ='avatar-placeholder.jpg';
+
+    public function photo(){
+        return $this->belongsTo('App\Photo');
+    }
 
     public function posts(){
 
@@ -83,6 +89,21 @@ class User extends Authenticatable
         $updated = Carbon::parse($this->updated_at)->diffForHumans();
 
         return $updated;
+    }
+
+    public function getProfilepictureAttribute(){
+
+        if($this->photo === null){
+
+            $filename = $this->avatar;
+
+        }else{
+
+            $filename = $this->photo['filename'];
+
+        }
+
+        return $this->photo_dir . $filename;
     }
 
 }

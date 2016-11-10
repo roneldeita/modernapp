@@ -119,12 +119,14 @@
                     dataType:"JSON",
                     success: function(data){
 
+                        var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;margin:0 5px 0 0", src:data['user']['profile_picture']});
+
                         panel.prepend(
                             $('<div></div>', { id:data['id'], class:"panel panel-default"}).append(
                                 $('<div></div>', {class:"panel-body"}).append(
                                     $('<div></div>').append(
-                                        $('<span></span>',{ class:"fa fa-user-circle", style:"padding: 0 3px 0 0"}),
-                                        $('<a></a>',{ text:data['owner'], href:"javascript:;" }),
+                                        profilePic,
+                                        $('<a></a>',{ text:data['user']['name'], href:"javascript:;" }),
                                         $('<span></span>',{ text:data['created'], style:"font-size:12px", class:"text-muted pull-right"})
                                     ),
                                     $('<div></div>', {text:data['body'], style:"margin-top:10px"})
@@ -152,6 +154,7 @@
                         $.each(data['data'], function(key, value){
 
                             var LastPanelId =  panel.find('div.panel:last-child').attr('id');
+                            var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;margin:0 5px 0 0", src:value['user']['profile_picture']});
 
                             if(LastPanelId != value['id']){
 
@@ -159,8 +162,8 @@
                                     $('<div></div>', { id:value['id'], class:"panel panel-default"}).append(
                                         $('<div></div>', {class:"panel-body"}).append(
                                             $('<div></div>').append(
-                                                $('<span></span>',{ class:"fa fa-user-circle", style:"padding: 0 3px 0 0"}),
-                                                $('<a></a>',{ text:value['owner'], href:"javascript:;" }),
+                                                profilePic,
+                                                $('<a></a>',{ text:value['user']['name'], href:"javascript:;", style:"font-weight:bold" }),
                                                 $('<span></span>',{ text:value['created'], style:"font-size:12px", class:"text-muted pull-right"})
                                             ),
                                             $('<div></div>', {text:value['body'], style:"margin-top:10px"})

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\User;
+use App\Photo;
 
 class UserController extends Controller
 {
@@ -55,6 +56,8 @@ class UserController extends Controller
 
     public function create(Request $request){
 
+        $input = $request->all();
+ 
         if (Gate::allows('access', $this->create)) {
 
             $this->validate($request, [
@@ -62,17 +65,37 @@ class UserController extends Controller
                 'email' =>'required|email|unique:users',
                 'password'  =>'required|min:3|confirmed',
                 'password_confirmation' =>'required|min:3',
+                'photo_id'  =>'mimes:jpeg,jpg,bmp,png,gif|max:3000'
             ]);
 
-            $request['password'] = bcrypt(trim($request->password));
+        
+            //check if photo_id is exists
+            if($file = $request->file('photo_id')){
 
-            User::create($request->all());
+                //naming the photo
+                $name = time().'-'.$file->getClientOriginalName();
+
+                //move photo to this location
+                $file->move('images/profile_picture', $name);
+
+                //save photo info to Photo table
+                $photo = Photo::create(['filename'=> $name]);
+
+                //get the id of inserted photo
+                $input['photo_id'] = $photo->id;
+
+            }
+
+            $input['password'] = bcrypt(trim($request->password));
+
+            User::create($input);
 
             $response = [ 'msg' =>' User created successfully' ];
 
             return response()->json($response);
-        
+
         }
+        
 
     }
 
@@ -87,7 +110,8 @@ class UserController extends Controller
 
                 $this->validate($request, [
                     'name'  =>'required|min:3|max:32',
-                    'email' =>'required|email|unique:users,email,'.$request->user_id.',id'
+                    'email' =>'required|email|unique:users,email,'.$request->user_id.',id',
+                    'photo_id'  =>'mimes:jpeg,jpg,bmp,png,gif|max:3000'
                 ]);
 
             }else{
@@ -99,9 +123,21 @@ class UserController extends Controller
                     'email'     =>'required|email|unique:users,email,'.$request->user_id.',id',
                     'password'  =>'required|min:3|confirmed',
                     'password_confirmation' =>'required|min:3',
+                    'photo_id'  =>'mimes:jpeg,jpg,bmp,png,gif|max:3000'
                 ]);
 
                 $input['password'] = bcrypt($request->password);
+            }
+
+            if($file = $request->file('photo_id')){
+
+                $name = time().'-'.$file->getClientOriginalName();
+
+                $file->move('images/profile_picture', $name);
+
+                $photo = Photo::create(['filename' => $name]);
+
+                $input['photo_id'] = $photo->id;
             }
 
             $user =User::findOrFail($request->user_id);

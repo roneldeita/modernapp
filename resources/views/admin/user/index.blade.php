@@ -33,6 +33,7 @@
 				<table class="table table-hover" name="users-table">
 					<thead>
 						<tr>
+							<th width="10%">Picture</th>
 							<th width="20%">Name</th>
 							<th width="20%">Email</th>
 							<th width="20%">Updated</th>
@@ -74,7 +75,7 @@
 		var mBody 		= $('div.modal-body');
 		var mNotif 		= $('div.modal-notification');
 		var mFooter 	= $('div.modal-footer');
-		var mform		= $('<form></form>', {name:"form-user"} );
+		var mform		= $('<form></form>', {name:"form-user","accept-charset":"UTF-8", enctype:"multipart/form-data"} );
 		var csrf 		= '{{ csrf_field() }}';
 		/*
 		 * For creating a user
@@ -84,15 +85,17 @@
 		var deleteBtn 	= $('<button></button>',{type:"button", name:"delete", text:"Delete", class:"btn btn-danger"});
 		var cancelBtn 	= $('<button></button>',{type:"button", name:"cancel", text:"Cancel", class:"btn btn-secondary",'data-dismiss':"modal"});
 		var nameFrmGrp 	= $('<div></div>',{class:"form-group"}).append($('<label></label>', {for:"name", text:"Name"}));
-		var nameTxt 	= $('<input></input', {type:"text", name:"name", id:"name", class:"form-control"});
+		var nameTxt 	= $('<input/>', {type:"text", name:"name", id:"name", class:"form-control"});
 		var emailFrmGrp = $('<div></div>',{class:"form-group"}).append($('<label></label>', {for:"email", text:"Email"}));
-		var emailTxt 	= $('<input></input', {type:"text", name:"email", id:"email", class:"form-control"});
+		var emailTxt 	= $('<input/>', {type:"text", name:"email", id:"email", class:"form-control"});
 		var pwFrmGrp 	= $('<div></div>',{class:"form-group"}).append($('<label></label>', {for:"password", text:"Password"}));
-		var pwField		= $('<input></input', {type:"password", name:"password", id:"password", class:"form-control"});
+		var pwField		= $('<input/>', {type:"password", name:"password", id:"password", class:"form-control"});
 		var pwCfFrmGrp 	= $('<div></div>',{class:"form-group"}).append($('<label></label>', {for:"password_confirmation", text:"Confirm Password"}));
-		var pwCfField	= $('<input></input', {type:"password", name:"password_confirmation", id:"password_confirmation", class:"form-control"});
+		var pwCfField	= $('<input/>', {type:"password", name:"password_confirmation", id:"password_confirmation", class:"form-control"});
+		var fileFrmGrp	= $('<div></div>',{class:"form-group"}).append($('<label></label>', {for:"photo_id", text:"Profile Picture"}));
+		var fileField	= $('<input/>', {type:"file", name:"photo_id", id:"photo_id", class:"form-control"});
 		var idFrmGrp 	= $('<div></div>',{class:"form-group"});
-		var idField		= $('<input></input', {type:"hidden", name:"user_id", id:"user_id", class:"form-control"});
+		var idField		= $('<input/>', {type:"hidden", name:"user_id", id:"user_id", class:"form-control"});
 		/*
 		 * For dropdown overlay table cell
 		 * 
@@ -129,24 +132,30 @@
 						nameFrmGrp.append(nameTxt),
 						emailFrmGrp.append(emailTxt),
 						pwFrmGrp.append(pwField),
-						pwCfFrmGrp.append(pwCfField)
+						pwCfFrmGrp.append(pwCfField),
+						fileFrmGrp.append(fileField)
 					));
 				mFooter.append(saveBtn);
 				modal.modal('show');
 
 				saveBtn.on('click', function(){
+
+					var formData = new FormData($('form[name=form-user]')[0]);
 					
 					$.ajax({
 						type:"POST",
 						url:"{{ url('/admincontrol/user/create') }}",
-						data: mform.serializeArray(),
-						dataType: "JSON",
+						data: formData,
+						contentType: false,
+						processData: false,
 						beforeSend: function(){
 
 							cleanNotification();
 
 						},
 						success: function(data, textStatus , jqXHR){
+
+							console.log(data);
 
 							mNotif.append($('<ul></ul>', {name:"success-msgs", class:"text-success text-center", style:"list-style:none"}));
 
@@ -193,18 +202,22 @@
 						emailFrmGrp.append(emailTxt.val(email)),
 						pwFrmGrp.append(pwField),
 						pwCfFrmGrp.append(pwCfField),
-						idFrmGrp.append(idField.val(id))
+						idFrmGrp.append(idField.val(id)),
+						fileFrmGrp.append(fileField)
 					));
 				mFooter.append(updateBtn);
 				modal.modal('show');
 
 				updateBtn.on('click', function(){
 
+					var formData = new FormData($('form[name=form-user]')[0]);
+
 					$.ajax({
 						type:"POST",
 						url:"{{ url('/admincontrol/user/update') }}",
-						data: mform.serializeArray(),
-						dataType: "JSON",
+						data: formData,
+						contentType: false,
+						processData: false,
 						beforeSend: function(){
 							cleanNotification();
 						},
@@ -303,7 +316,10 @@
 
 						$.each(data, function(key, value){
 
+							var profilePic = $('<img/>',{ class:"img-circle", width:"30px", src:value['profile_picture']});
+
 							tbody.append($('<tr></tr>').append(
+								$('<td></td>').append(profilePic),
 								$('<td></td>',{ text:value['name']}),
 								$('<td></td>',{ text:value['email']}),
 								$('<td></td>',{ text:value['updated'] }),

@@ -189,30 +189,38 @@
 					
 					tbody.empty();
 
-					$.each(data['data']['data'], function(key, value){
+					if(data['data']['data'].length > 0){
 
-						//set pagination active page
-						pagination.attr('data-active', data['data']['current_page']);
+						$.each(data['data']['data'], function(key, value){
 
-						var dispChckbox	= $('<input/>',{type:"checkbox", id:value['id'], class:"display-checkbox"});
-						var selectCheckbox	= $('<input/>',{type:"checkbox", id:value['id'], class:"selected-checkbox"});
+							//set pagination active page
+							pagination.attr('data-active', data['data']['current_page']);
 
-						if(value['display']){
+							var dispChckbox	= $('<input/>',{type:"checkbox", id:value['id'], class:"display-checkbox"});
+							var selectCheckbox	= $('<input/>',{type:"checkbox", id:value['id'], class:"selected-checkbox"});
 
-							dispChckbox.prop('checked', true);
+							if(value['display']){
 
-						}
+								dispChckbox.prop('checked', true);
+
+							}
+
+							tbody.append($('<tr></tr>').append(
+								$('<td></td>',{class:"center-checkbox"}).append(selectCheckbox),
+								$('<td></td>',{ text:value['shortbody']}),
+								$('<td></td>',{ text:value['owner']}),
+								$('<td></td>',{ text:value['category'] }),
+								$('<td></td>',{ text:value['created'] }),
+								$('<td></td>',{ text:value['updated'] }),
+								$('<td></td>',{ class:"action"}).append(dispChckbox)
+							));
+						});
+					}else{
 
 						tbody.append($('<tr></tr>').append(
-							$('<td></td>',{class:"center-checkbox"}).append(selectCheckbox),
-							$('<td></td>',{ text:value['shortbody']}),
-							$('<td></td>',{ text:value['owner']}),
-							$('<td></td>',{ text:value['category'] }),
-							$('<td></td>',{ text:value['created'] }),
-							$('<td></td>',{ text:value['updated'] }),
-							$('<td></td>',{ class:"action"}).append(dispChckbox)
-						));
-					});
+						$('<td></td>',{ text:"No results", colspan:"100%", align:"center", class:"text-danger"  })));
+
+					}
 
 					//boostrap switch
 					$(".display-checkbox").bootstrapSwitch({
