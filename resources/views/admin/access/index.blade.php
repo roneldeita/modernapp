@@ -89,13 +89,9 @@
 	var select_user = $('select[name=user]');
 	var button_save = $('button[name=save]');
 
-
 	$(function(){
 
 		select_module.on('change', function(){
-
-			//$('select[name=user] option:selected').prop('selected', false);
-			//$('select[name=user] option:first').prop('selected', 'selected');
 
 			var id = $(this).val();
 			$.ajax({
@@ -114,13 +110,13 @@
 
 					$.each(data, function(key, value){
 
-					 	var methods = $('.methods');
+						var methods = $('.methods');
 					 	var tr  = $('<tr></tr>');
-					 	var td = $('<td></td>', { text:value['name'] });
+					 	var td = $('<td></td>');
 					 	var td2 = $('<td></td>');
 					 	var checkbox = $('<input/>', { id:value['id'], type:"checkbox", class:"method-checkbox" } );
 					 	methods.append(tr);
-					 	tr.append(td);
+					 	tr.append(td.text(value['name']));
 					 	td2.insertAfter(td);
 					 	td2.append(checkbox);
 
@@ -221,6 +217,9 @@
 				});
 			}
 		});
+
+		select_module.find('option:eq(1)').prop('selected','selected').change();
+		select_user.find('option:eq(1)').prop('selected','selected').change();
 
 	});
 

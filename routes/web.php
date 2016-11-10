@@ -19,6 +19,13 @@ Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/posts', 'HomeController@posts');
+
+Route::post('/create_post', 'HomeController@create_post');
+
+Route::get('/inserted', 'HomeController@inserted');
+
+
 Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 
 	Route::get('/', 'AdminController@index');
@@ -29,9 +36,9 @@ Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 
 		Route::get('/data', 'PostController@data');
 
-		Route::post('/create', 'PostController@create');
+		Route::post('/switchdisplay', 'PostController@switch_display');
 
-		Route::get('/inserted', 'PostController@inserted');
+		Route::post('deleteposts', 'PostController@delete_posts');
 
 		Route::group(['prefix'=>'category'], function(){
 

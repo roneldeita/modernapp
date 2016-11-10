@@ -277,7 +277,7 @@
 					beforeSend: function(){
 						tbody.empty();
 						tbody.append($('<tr></tr>').append(
-							$('<td></td>',{ text:"Loading...", colspan:"100%", align:"center", class:"text-success" })));
+							$('<td></td>',{colspan:"100%", align:"center"}).prepend($('<div class="loader"></div>'))));
 					},
 					success:function(data){
 

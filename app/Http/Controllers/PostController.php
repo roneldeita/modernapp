@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\User;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
 
 class PostController extends Controller
 {
@@ -22,9 +20,22 @@ class PostController extends Controller
     	$posts = Post::find(1);
     	$user = User::find(1);
 
+        $update = true;
+        $delete = true;
+
+        if (!Gate::allows('access', $this->update)) {
+
+            $update=false;
+        }
+
+        if (!Gate::allows('access', $this->delete)) {
+
+            $delete=false;
+        }
+
     	if(Gate::allows('access', $this->view)){
 
-    		return view('admin.post.index', compact('posts', 'user'));
+    		return view('admin.post.index', compact('posts', 'user' , 'update', 'delete'));
 
     	}
 
@@ -32,38 +43,42 @@ class PostController extends Controller
 
     }
 
-    public function inserted(){
-
-        $post_id = Input::get('id');
-
-        $post = Post::findOrFail($post_id);
-
-        return response()->json($post);
-
-    }
-
     public function data(){
 
     	$posts = Post::orderBy('id','desc')->paginate(10);
 
-    	return response()->json($posts);
+    	return response()->json(array(
+            'data'=>$posts,
+            'pagination' => (string) $posts->links()
+        ));
 
     }
 
-    public function create(Request $request){
+    public function switch_display(Request $request){
 
-        $this->validate($request, [
-            'postcategory_id' => 'required',
-            'body' => 'required'
-            ]);
+        if(Gate::allows('access', $this->update)){
 
-        $user = Auth::user();
-        
-        $id = $user->posts()->create($request->all())->id;
+            $post = Post::findOrFail($request->id);
 
-        $response = [ 'id' => $id ];
+            $post->display =  ($request->display == "false" ? 0 : 1);
 
-        return response()->json($response);
+            $post->save();
+        }
+
+
+    }
+
+    public function delete_posts(Request $request){
+
+        if(Gate::allows('access', $this->delete)){
+
+            $delete = Post::destroy($request->ids);
+
+            $response = [ 'msg' => 'Posts Deleted successfully' ];
+
+            return response()->json($response);
+
+        }
 
     }
 

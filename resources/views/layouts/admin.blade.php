@@ -61,6 +61,9 @@
                             <hr>
                         </li>
                         <li>
+                            <a href="{{ url('/') }}"><span class="fa fa-home"></span> Home</a>
+                        </li>
+                        <li>
                             <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <span class="fa fa-sign-out"></span> Logout
                             </a>

@@ -33,10 +33,10 @@
 				<table class="table table-hover" name="users-table">
 					<thead>
 						<tr>
-							<th>Name</th>
-							<th>Email</th>
-							<th>Updated</th>
-							<th>Created</th>
+							<th width="20%">Name</th>
+							<th width="20%">Email</th>
+							<th width="20%">Updated</th>
+							<th width="20%">Created</th>
 							<th>&nbsp;</th>
 						</tr>
 					</thead>
@@ -293,8 +293,9 @@
 					},
 					dataType:"JSON",
 					beforeSend: function(){
+						tbody.empty();
 						tbody.append($('<tr></tr>').append(
-							$('<td></td>',{ text:"Loading...", colspan:"100%", align:"center" })));
+							$('<td></td>',{colspan:"100%", align:"center"}).prepend($('<div class="loader"></div>'))));
 					},
 					success: function(data){
 

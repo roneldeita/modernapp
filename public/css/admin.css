@@ -160,3 +160,24 @@
 }
 
 }
+
+.loader {
+  border: 2px solid #d9d9d9;
+  border-radius: 50%;
+  border-top: 2px solid #337ab7;
+  width: 30px;
+  height: 30px;
+  margin: 50px 0 50px 0;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

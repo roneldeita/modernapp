@@ -31,7 +31,7 @@ class Post extends Model
     //example of accessors
     public function getShortbodyAttribute(){
 
-        return str_limit($this->body, 75);
+        return str_limit($this->body, 55);
 
     }
 

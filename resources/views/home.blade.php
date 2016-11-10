@@ -68,16 +68,19 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('/admincontrol/post/create') }}",
+                    url: "{{ url('/create_post') }}",
                     data : form.serializeArray(),
                     dataType: "JSON",
                     beforeSend: function(){
+
                         cleanNotif();
+                        
                     },
                     success: function(data){
+
                         cleanForm();
-                        //loadPosts();
                         prependPost(data['id']);
+
                     },
                     error: function(xhr, status, error){
 
@@ -108,7 +111,7 @@
             function prependPost(id){
                 $.ajax({
                     type:"GET",
-                    url: "{{ url('admincontrol/post/inserted') }}",
+                    url: "{{ url('/inserted') }}",
                     data:{
                         "_token":"{{ csrf_token() }}",
                         "id":id
@@ -139,7 +142,7 @@
 
                 $.ajax({
                     type:"GET",
-                    url: "{{ url('admincontrol/post/data?page=') }}"+page,
+                    url: "{{ url('/posts?page=') }}"+page,
                     data:{
                         "_token":"{{ csrf_token() }}"
                     },
@@ -166,9 +169,6 @@
                                 );
 
                             }
-
-                            
-                            console.log(LastPanelId);
 
                         });
 
