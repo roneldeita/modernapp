@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Photo');
     }
 
+    public function comments(){
+
+        return $this->hasMany('App\Comments');
+    }
+
     public function posts(){
 
         return $this->hasMany('App\Post');

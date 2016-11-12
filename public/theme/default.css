@@ -2,7 +2,11 @@
 	background: #ededed;
 }
 
-.sidebar-nav li a{
+#sidebar-wrapper img{
+  border:4px solid #b3b3b3;
+} 
+
+.sidebar-nav li{
 	color: #286090;
 }
 

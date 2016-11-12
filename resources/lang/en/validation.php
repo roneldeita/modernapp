@@ -112,6 +112,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'postcategory_id'=>'About',
+        'body'=>'Message',
+        'photo_id'=>'Picture'
+    ],
 
 ];

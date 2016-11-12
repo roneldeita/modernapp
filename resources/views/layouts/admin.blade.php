@@ -35,8 +35,15 @@
 
             <!-- Sidebar -->
             <div id="sidebar-wrapper">
+                
                 <nav id="spy">
                     <ul class="sidebar-nav nav">
+                        <li>
+                            <div class="user-panel text-center">
+                                <img class="img-circle" src="{{ Auth::user()->profile_picture }}"/>
+                                <p>{{ Auth::user()->name }}</p>
+                            </div>
+                        </li>
                         <li>
                             <a href="{{ url('/admincontrol') }}"><span class="fa fa-dashboard"></span> Dashboard</a>
                         </li>

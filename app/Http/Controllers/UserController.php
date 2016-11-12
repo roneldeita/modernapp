@@ -65,7 +65,7 @@ class UserController extends Controller
                 'email' =>'required|email|unique:users',
                 'password'  =>'required|min:3|confirmed',
                 'password_confirmation' =>'required|min:3',
-                'photo_id'  =>'mimes:jpeg,jpg,bmp,png,gif|max:3000'
+                'photo_id'  =>'mimes:jpeg,jpg,bmp,png,gif|max:3000|dimensions:min_width=200,min_height=200,max_width=500,max_height=500'
             ]);
 
         
@@ -111,7 +111,7 @@ class UserController extends Controller
                 $this->validate($request, [
                     'name'  =>'required|min:3|max:32',
                     'email' =>'required|email|unique:users,email,'.$request->user_id.',id',
-                    'photo_id'  =>'mimes:jpeg,jpg,bmp,png,gif|max:3000'
+                    'photo_id'  =>'mimes:jpeg,jpg,bmp,png,gif|max:3000|max:3000|dimensions:min_width=200,min_height=200,max_width=500,max_height=500'
                 ]);
 
             }else{
@@ -123,7 +123,7 @@ class UserController extends Controller
                     'email'     =>'required|email|unique:users,email,'.$request->user_id.',id',
                     'password'  =>'required|min:3|confirmed',
                     'password_confirmation' =>'required|min:3',
-                    'photo_id'  =>'mimes:jpeg,jpg,bmp,png,gif|max:3000'
+                    'photo_id'  =>'mimes:jpeg,jpg,bmp,png,gif|max:3000|max:3000|dimensions:min_width=200,min_height=200,max_width=500,max_height=500'
                 ]);
 
                 $input['password'] = bcrypt($request->password);

@@ -40,6 +40,14 @@ class HomeController extends Controller
         return response()->json($posts);
     }
 
+    public function show_comments(Request $request){
+
+        $post = Post::findOrFail($request->id);
+
+        return $post->comments;
+
+    }
+
     public function create_post(Request $request){
 
         $this->validate($request, [
@@ -65,5 +73,13 @@ class HomeController extends Controller
 
         return response()->json($post);
 
+    }
+
+    public function messages()
+    {
+        return [
+            'postcategory_id.required' => 'The About field is required',
+            'body.required'  => 'A message is required',
+        ];
     }
 }

@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/posts', 'HomeController@posts');
 
+Route::get('/showcomments', 'HomeController@show_comments');
+
 Route::post('/create_post', 'HomeController@create_post');
 
 Route::get('/inserted', 'HomeController@inserted');

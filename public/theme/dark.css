@@ -6,6 +6,10 @@ body{
 	background: #000;
 }
 
+#sidebar-wrapper img{
+  border:4px solid #e6e6e6;
+} 
+
 .sidebar-nav li a{
 	color: #999999;
 }

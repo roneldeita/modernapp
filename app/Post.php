@@ -60,4 +60,11 @@ class Post extends Model
         return $this->postcategory->name;
 
     }
+
+    public function comments(){
+
+        return $this->morphMany('App\Comment', 'commentable');
+
+    }
+
 }

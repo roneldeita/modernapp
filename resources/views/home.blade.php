@@ -119,7 +119,7 @@
                     dataType:"JSON",
                     success: function(data){
 
-                        var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;margin:0 5px 0 0", src:data['user']['profile_picture']});
+                        var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:data['user']['profile_picture']});
 
                         panel.prepend(
                             $('<div></div>', { id:data['id'], class:"panel panel-default"}).append(
@@ -130,7 +130,18 @@
                                         $('<span></span>',{ text:data['created'], style:"font-size:12px", class:"text-muted pull-right"})
                                     ),
                                     $('<div></div>', {text:data['body'], style:"margin-top:10px"})
-                                )
+                                ),
+                               $('<div></div>', {class:"panel-footer",style:"padding:2px 5px"}).append(
+                                    $('<ul></ul>',{class:"nav nav-pills"}).append(
+                                        $('<li></li>').append(
+                                            $('<a></a>',{href:"javascript:;", id: data['id'], name:"comment-lnk", style:"font-size:13px; padding:2px;"}).prepend($('<span></span>', {class:"fa fa-comments text-muted"}))
+                                        ),
+                                        $('<li></li>',{class:"pull-right"}).append(
+                                            $('<a></a>',{href:"javascript:;", id: data['id'], name:"comment-wrt", style:"font-size:13px; padding:2px;",text:"Write a comment"})
+                                        )
+                                    )
+                                ),
+                                $('<ul></ul>',{class:"list-group"})
                             )
                         );
 
@@ -154,7 +165,7 @@
                         $.each(data['data'], function(key, value){
 
                             var LastPanelId =  panel.find('div.panel:last-child').attr('id');
-                            var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;margin:0 5px 0 0", src:value['user']['profile_picture']});
+                            var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:value['user']['profile_picture']});
 
                             if(LastPanelId != value['id']){
 
@@ -166,8 +177,19 @@
                                                 $('<a></a>',{ text:value['user']['name'], href:"javascript:;", style:"font-weight:bold" }),
                                                 $('<span></span>',{ text:value['created'], style:"font-size:12px", class:"text-muted pull-right"})
                                             ),
-                                            $('<div></div>', {text:value['body'], style:"margin-top:10px"})
-                                        )
+                                            $('<div></div>', {text:value['body'], style:"margin-top:10px; font-size:16px"})
+                                        ),
+                                        $('<div></div>', {class:"panel-footer",style:"padding:2px 5px"}).append(
+                                            $('<ul></ul>',{class:"nav nav-pills"}).append(
+                                                $('<li></li>').append(
+                                                    $('<a></a>',{href:"javascript:;", id: value['id'], name:"comment-lnk", style:"font-size:13px; padding:2px;"}).prepend($('<span></span>', {class:"fa fa-comments text-muted"}))
+                                                ),
+                                                $('<li></li>',{class:"pull-right"}).append(
+                                                    $('<a></a>',{href:"javascript:;", id: value['id'], name:"comment-wrt", style:"font-size:13px; padding:2px;",text:"Write a comment"})
+                                                )
+                                            )
+                                        ),
+                                        $('<ul></ul>',{class:"list-group"})
                                     )
                                 );
 
@@ -196,6 +218,42 @@
 
                 });
 
+            }
+
+            $(document).on('click', 'a[name=comment-lnk]', function(){
+                showComments($(this).attr('id'));
+            });
+
+
+            //show comments
+            function showComments(id){
+                $.ajax({
+                    type:"GET",
+                    url:"{{ '/showcomments' }}",
+                    data:{
+                        "_token":"{{ csrf_token() }}",
+                        "id":id
+                    },
+                    dataType:"JSON",
+                    beforeSend:function(){
+                        $('div#'+id).find('ul.list-group').empty();
+                    },
+                    success:function(data){
+
+                        $.each(data, function(key, value){
+
+                            console.log(data);
+
+                            $('div#'+id).find('ul.list-group').append(
+                                $('<li></li>',{style:"border:0px; font-size:14px; line-height:6px",class:"list-group-item"}).append(
+                                    $('<p></p>', {text:" "+value['body']}).prepend($('<a></a>',{href:"javascript:;", text:value['owner']})),
+                                    $('<p></p>', {text:value['created'], style:"font-size:11px;"})
+                                )
+                            );
+                        });
+
+                    }
+                });
             }
 
             function cleanForm(){

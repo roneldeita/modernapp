@@ -24,27 +24,33 @@
 			
 			<div class="col-md-4">
 
-				<div class="form-goup">
-					<label for="module">Module</label>
-					<select name="module" id="module" class="form-control">
-						<option value="0">Select a module</option>
+				<div class="form-group">
 
-						@foreach($modules as $module)
+					<div class="input-group">
+                    	<span class="input-group-addon text-primary" id="category"><span class="fa fa-cube"></span> Modules</span>
+						<select name="module" id="module" class="form-control">
+							<option value="0">Select a module</option>
 
-							<option value="{{ $module->id }}">{{ $module->name }}</option>
+							@foreach($modules as $module)
 
-						@endforeach
+								<option value="{{ $module->id }}">{{ $module->name }}</option>
 
-					</select>
+							@endforeach
+
+						</select>
+							
+					</div>
+
 				</div>
 
 			</div>
 
 			<div class="col-md-4">
 
-				<div class="form-goup">
-					<label for="user">User</label>
-					<select name="user" id="user" class="form-control">
+				<div class="form-group">
+					<div class="input-group">
+                    	<span class="input-group-addon text-primary" id="category"><span class="fa fa-key"></span> Access</span>
+						<select name="user" id="user" class="form-control">
 						<option value="0">Select a user</option>
 
 						@foreach($users as $user)
@@ -53,7 +59,8 @@
 
 						@endforeach
 
-					</select>
+						</select>
+					</div>
 				</div>
 
 			</div>
