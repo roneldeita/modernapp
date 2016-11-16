@@ -245,12 +245,20 @@
 
 			});
 
-			//search
+			//search via button click
 			srchBtn.on('click', function(){
 
 				loadPostCategory(1, srchField.val());
 
-			});			
+			});	
+			//search via enter-key from search input
+			srchField.on('keyup', function(e){
+				
+				    if (e.keyCode == 13) {
+				        loadPostCategory(1, srchField.val());
+				    }
+
+			});	
 			
 			//pagination
 			$(document).on('click', 'ul.pagination a', function(e){

@@ -49,7 +49,7 @@
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="{{ url('/admincontrol/post') }}" aria-expanded="false">
-                                <span class="fa fa-comment"></span> Post <span class="caret"></span></a>
+                                <span class="fa fa-comments"></span> Post <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                               <li><a href="{{ url('/admincontrol/post') }}">View All</a></li>
                               <li><a href="{{ url('/admincontrol/post/category') }}">Category</a></li>
@@ -62,7 +62,7 @@
                             <a href="{{ url('/admincontrol/user') }}"><span class="fa fa-user-circle"></span> User</a>
                         </li>
                         <li>
-                            <a href="{{ url('/admincontrol/appearance') }}"><span class="fa fa-diamond"></span> Appearance</a>
+                            <a href="{{ url('/admincontrol/appearance') }}"><span class="fa fa-paint-brush"></span> Appearance</a>
                         </li>
                         <li class="divider">
                             <hr>
@@ -93,7 +93,13 @@
                             <i class="fa fa-bars"></i>
                         </a>
                     </h1>
+                    <div>
+                       @if (session('status'))
 
+                             @include('notification.message')
+
+                        @endif
+                    </div>
                 </div>
 
                 <div class="page-content">

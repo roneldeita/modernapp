@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Input;
 use App\Theme;
 
 
@@ -13,8 +14,9 @@ class AppearanceController extends Controller
 {
     private $view = 8;
     private $change_theme = 9;
+    private $notif = ['success','Themes changed!'];
     
-    function index(){
+    function index($mgs=null){
 
         $change_theme = true;
 
@@ -27,8 +29,9 @@ class AppearanceController extends Controller
         if (Gate::allows('access', $this->view)) {
 
         	$themes = Theme::all();
+            $data = $mgs;
 
-        	return view('admin.appearance.index', compact('themes', 'change_theme'));
+        	return view('admin.appearance.index', compact('themes', 'change_theme', 'data'));
 
         }
 
@@ -56,7 +59,22 @@ class AppearanceController extends Controller
 
     		$update = $user->update();
 
-        	return response()->json($update);
+            if($update){
+
+                $theme = $user->theme['name'];
+
+                session()->flash('alert-type', 'success' );
+                session()->flash('status', 'Your theme changed to ' . $theme );
+
+            }else{
+
+                session()->flash('alert-type', 'danger' );
+                session()->flash('status', 'Unable to change theme' );
+
+            }
+           
+
+            return response()->json();
         }
 
     }

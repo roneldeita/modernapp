@@ -90,7 +90,7 @@ class UserController extends Controller
 
             User::create($input);
 
-            $response = [ 'msg' =>' User created successfully' ];
+            $response = [ 'msg' =>' New user successfully created' ];
 
             return response()->json($response);
 
