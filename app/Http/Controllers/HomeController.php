@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use App\Postcategory;
 use App\Post;
+use App\Events\PostEvent;
 
 class HomeController extends Controller
 {
@@ -61,6 +62,10 @@ class HomeController extends Controller
 
         $response = [ 'id' => $id ];
 
+        $new_post = Post::find($id);
+
+        event(new PostEvent($new_post));
+
         return response()->json($response);
 
     }
@@ -72,6 +77,8 @@ class HomeController extends Controller
         $post = Post::findOrFail($post_id);
 
         return response()->json($post);
+
+
 
     }
 

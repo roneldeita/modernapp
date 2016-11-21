@@ -63,6 +63,7 @@ class PostController extends Controller
             $post->display =  ($request->display == "false" ? 0 : 1);
 
             $post->save();
+
         }
 
 
@@ -77,7 +78,6 @@ class PostController extends Controller
             $response = [ 'msg' => 'Posts Deleted successfully' ];
 
             return response()->json($response);
-
         }
 
     }

@@ -44,6 +44,8 @@
 @endsection
 
 @section('scripts')
+    
+    <script src="//js.pusher.com/3.0/pusher.min.js"></script>
 
     <script type="text/javascript">
         var postcategory    = $('select[name=post-category]');
@@ -79,7 +81,6 @@
                     success: function(data){
 
                         cleanForm();
-                        prependPost(data['id']);
 
                     },
                     error: function(xhr, status, error){
@@ -264,6 +265,14 @@
             function cleanNotif(){
                 notif.empty();
             }
+
+            var pusher = new Pusher("{{env("PUSHER_KEY")}}")
+            var channel = pusher.subscribe('post');
+            channel.bind('App\\Events\\PostEvent', function(data) {
+
+                prependPost(data.post.id);
+
+            });
             
         });
         

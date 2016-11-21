@@ -85,14 +85,7 @@
                     </ul>
                 </div>
             </div>
-        </nav> 
-        <div>
-           @if (session('status'))
-
-                 @include('notification.message')
-
-            @endif
-        </div> 
+        </nav>
 
         @yield('content')
         

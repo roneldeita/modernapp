@@ -95,7 +95,7 @@
 
         var pusher = new Pusher("{{env("PUSHER_KEY")}}")
         var channel = pusher.subscribe('test-channel');
-        channel.bind('test-event', function(data) {
+        channel.bind('TestEvent', function(data) {
           alert(data.text);
         });
         </script>
