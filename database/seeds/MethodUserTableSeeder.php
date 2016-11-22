@@ -11,22 +11,17 @@ class MethodUserTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('method_user')->insert([
-        	'id'=>1,
-        	'user_id'=>1,
-        	'method_id'=>1
-        ]);
 
-        DB::table('method_user')->insert([
-        	'id'=>2,
-        	'user_id'=>1,
-        	'method_id'=>2
-        ]);
+        $user_id =1;
 
-        DB::table('method_user')->insert([
-        	'id'=>3,
-        	'user_id'=>1,
-        	'method_id'=>3
-        ]);
+        for($i=1 ; $i <= 17 ; $i++){
+
+            DB::table('method_user')->insert([
+                'id'=>$i,
+                'user_id'=>$user_id,
+                'method_id'=>$i
+            ]);
+        }
+
     }
 }

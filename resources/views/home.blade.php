@@ -135,7 +135,7 @@
                                $('<div></div>', {class:"panel-footer",style:"padding:2px 5px"}).append(
                                     $('<ul></ul>',{class:"nav nav-pills"}).append(
                                         $('<li></li>').append(
-                                            $('<a></a>',{href:"javascript:;", id: data['id'], name:"comment-lnk", style:"font-size:13px; padding:2px;"}).prepend($('<span></span>', {class:"fa fa-comments text-muted"}))
+                                            $('<a></a>',{href:"javascript:;", id: data['id'], text:" Comment", name:"comment-lnk", style:"font-size:13px; padding:2px;"}).prepend($('<span></span>', {class:"fa fa-chevron-circle-down text-muted"}))
                                         ),
                                         $('<li></li>',{class:"pull-right"}).append(
                                             $('<a></a>',{href:"javascript:;", id: data['id'], name:"comment-wrt", style:"font-size:13px; padding:2px;",text:"Write a comment"})
@@ -183,14 +183,15 @@
                                         $('<div></div>', {class:"panel-footer",style:"padding:2px 5px"}).append(
                                             $('<ul></ul>',{class:"nav nav-pills"}).append(
                                                 $('<li></li>').append(
-                                                    $('<a></a>',{href:"javascript:;", id: value['id'], name:"comment-lnk", style:"font-size:13px; padding:2px;"}).prepend($('<span></span>', {class:"fa fa-comments text-muted"}))
+                                                    $('<a></a>',{href:"javascript:;", id: value['id'], text:" Comment", name:"comment-lnk", style:"font-size:13px; padding:2px;"}).prepend($('<span></span>', {class:"fa fa-chevron-circle-down text-muted"}))
                                                 ),
                                                 $('<li></li>',{class:"pull-right"}).append(
                                                     $('<a></a>',{href:"javascript:;", id: value['id'], name:"comment-wrt", style:"font-size:13px; padding:2px;",text:"Write a comment"})
                                                 )
-                                            )
-                                        ),
-                                        $('<ul></ul>',{class:"list-group"})
+                                            ),
+                                            $('<ul></ul>',{class:"list-group", style:"margin:1px"})
+                                        )
+                                        
                                     )
                                 );
 
@@ -236,22 +237,40 @@
                         "id":id
                     },
                     dataType:"JSON",
-                    beforeSend:function(){
-                        $('div#'+id).find('ul.list-group').empty();
-                    },
                     success:function(data){
 
-                        $.each(data, function(key, value){
+                        var comment_list = $('div#'+id).find('ul.list-group');
 
-                            console.log(data);
+                        if(comment_list.children().length == 0){
 
-                            $('div#'+id).find('ul.list-group').append(
-                                $('<li></li>',{style:"border:0px; font-size:14px; line-height:6px",class:"list-group-item"}).append(
-                                    $('<p></p>', {text:" "+value['body']}).prepend($('<a></a>',{href:"javascript:;", text:value['owner']})),
-                                    $('<p></p>', {text:value['created'], style:"font-size:11px;"})
-                                )
-                            );
-                        });
+                            $('div#'+id).find('a[name=comment-lnk]').find('span').removeClass('fa-chevron-circle-down').addClass('fa-chevron-circle-up');
+
+                            $.each(data, function(key, value){
+
+                                comment_list.append(
+                                    $('<li></li>',{style:"border:0px; font-size:14px; line-height:6px",class:"list-group-item"}).append(
+                                        $('<p></p>', {text:" "+value['body']}).prepend($('<a></a>',{href:"javascript:;", text:value['owner']})),
+                                        $('<p></p>', {text:value['created'], style:"font-size:11px;"})
+                                    )
+                                );
+                                
+                            });
+
+                            if(data.length == 0){
+                               comment_list.append(
+                                    $('<li></li>',{style:"border:0px; font-size:14px; line-height:6px",class:"list-group-item"}).append(
+                                        $('<p></p>', {text:" No comments yet.."})
+                                    )
+                                );
+                            }
+
+                        }else{
+
+                            $('div#'+id).find('a[name=comment-lnk]').find('span').removeClass('fa-chevron-circle-up').addClass('fa-chevron-circle-down');
+
+                            comment_list.empty();
+
+                        }
 
                     }
                 });

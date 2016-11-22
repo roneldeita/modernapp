@@ -40,7 +40,7 @@
 						<p>{{ $info['users'] > 1 ? 'Users' : 'User' }} <span class="fa fa-users icon"></span></p>
 					</div>
 					<div class="panel-body">
-				    	<a href="javascript:;">View Details <span class="pull-right fa fa-chevron-circle-right"></span></a>
+				    	<a href="{{ url('admincontrol/user') }}">View Details <span class="pull-right fa fa-chevron-circle-right"></span></a>
 				  	</div>
 				</div>
 			</div>
@@ -52,7 +52,7 @@
 						<p>{{ $info['posts'] > 1 ? 'Posts' : 'Post' }} <span class="fa fa-comments icon"></span></p>
 					</div>
 					<div class="panel-body">
-				    	<a href="javascript:;">View Details <span class="pull-right fa fa-chevron-circle-right"></span></a>
+				    	<a href="{{ url('admincontrol/post') }}">View Details <span class="pull-right fa fa-chevron-circle-right"></span></a>
 				  	</div>
 				</div>
 			</div>
@@ -64,7 +64,7 @@
 						<p>{{ $info['modules'] > 1 ? 'Modules' : 'Module' }} <span class="fa fa-cubes icon"></span></p>
 					</div>
 					<div class="panel-body">
-				    	<a href="javascript:;">View Details <span class="pull-right fa fa-chevron-circle-right"></span></a>
+				    	<a href="{{ url('admincontrol/access') }}">View Details <span class="pull-right fa fa-chevron-circle-right"></span></a>
 				  	</div>
 				</div>
 			</div>
@@ -76,7 +76,7 @@
 						<p>{{ $info['themes'] > 1 ? 'Themes' : 'Theme' }} <span class="fa fa-paint-brush icon"></span></p>
 					</div>
 					<div class="panel-body">
-				    	<a href="javascript:;">View Details <span class="pull-right fa fa-chevron-circle-right"></span></a>
+				    	<a href="{{ url('admincontrol/appearance') }}">View Details <span class="pull-right fa fa-chevron-circle-right"></span></a>
 				  	</div>
 				</div>
 			</div>

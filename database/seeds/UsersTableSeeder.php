@@ -16,7 +16,9 @@ class UsersTableSeeder extends Seeder
             'theme_id'=>1,
         	'name'=>'Administrator',
         	'email'=>'admin@email.com',
-        	'password'=>bcrypt('admin')
+        	'password'=>bcrypt('admin'),
+            'updated_at' => date("Y-m-d H:i:s"),
+            'created_at' => date("Y-m-d H:i:s")
         ]);
     }
 }

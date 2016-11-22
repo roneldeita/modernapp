@@ -1,3 +1,15 @@
+# Installation
+
+Pull this project, create .env file, generate key, migrate, seed and set BROADCAST_DRIVER=pusher.
+#
+BROADCAST_DRIVER=pusher
+#
+PUSHER_APP_ID=
+#
+PUSHER_KEY=
+#
+PUSHER_SECRET=
+
 # Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
