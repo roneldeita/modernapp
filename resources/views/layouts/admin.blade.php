@@ -40,7 +40,7 @@
                     <ul class="sidebar-nav nav">
                         <li>
                             <div class="user-panel text-center">
-                                <img class="img-circle" src="{{ Auth::user()->profile_picture }}"/>
+                                <img class="img-circle" src="{{ url(Auth::user()->profile_picture) }}"/>
                                 <p>{{ Auth::user()->name }}</p>
                             </div>
                         </li>

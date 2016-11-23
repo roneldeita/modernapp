@@ -1,9 +1,9 @@
-# Installation
+## Installation
 
 Pull this project, create .env file, generate key, migrate and seed.
 
-# Some configuration for .env file 
-<br />
+## Some configuration for .env file 
+
 BROADCAST_DRIVER=pusher
 <br />
 PUSHER_APP_ID=

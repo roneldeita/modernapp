@@ -30,6 +30,10 @@
                         <div class="notif-msg"></div>
                     </form>
                 </div>
+
+                <div class="panel-footer">
+                    <div id="post-alert-notif"></div>
+                </div>
             </div>
 
             <div id="posts"></div>
@@ -54,8 +58,10 @@
         var form            = $('form[name=create-post]');
         var notif           = $('div.notif-msg');
         //posts
+        var frmFooter       = $('div#post-alert-notif');
         var panel           = $('div#posts');
         var loadBtn         = $('a[name=load-more-btn]');
+        var ctr             = 0;
 
         form.on('submit', function(e){
             e.preventDefault();
@@ -81,6 +87,7 @@
                     success: function(data){
 
                         cleanForm();
+                        prependPost(data['id']);
 
                     },
                     error: function(xhr, status, error){
@@ -151,6 +158,53 @@
                 });
             }
 
+            //prepend new posts
+            function prependNewPosts(ids){
+                $.ajax({
+                    type:"GET",
+                    url: "{{ url('/loadnewposts') }}",
+                    data:{
+                        "_token":"{{ csrf_token() }}",
+                        "ids":ids
+                    },
+                    dataType:"JSON",
+                    success: function(data){
+
+                        $.each(data, function(key, value){
+
+                            var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:value['user']['profile_picture']});
+
+                            panel.prepend(
+                                $('<div></div>', { id:value['id'], class:"panel panel-default"}).append(
+                                    $('<div></div>', {class:"panel-body"}).append(
+                                        $('<div></div>').append(
+                                            profilePic,
+                                            $('<a></a>',{ text:value['user']['name'], href:"javascript:;" }),
+                                            $('<span></span>',{ text:value['created'], style:"font-size:12px", class:"text-muted pull-right"})
+                                        ),
+                                        $('<div></div>', {text:value['body'], style:"margin-top:10px"})
+                                    ),
+                                   $('<div></div>', {class:"panel-footer",style:"padding:2px 5px"}).append(
+                                        $('<ul></ul>',{class:"nav nav-pills"}).append(
+                                            $('<li></li>').append(
+                                                $('<a></a>',{href:"javascript:;", id: value['id'], text:" Comment", name:"comment-lnk", style:"font-size:13px; padding:2px;"}).prepend($('<span></span>', {class:"fa fa-chevron-circle-down text-muted"}))
+                                            ),
+                                            $('<li></li>',{class:"pull-right"}).append(
+                                                $('<a></a>',{href:"javascript:;", id: data['id'], name:"comment-wrt", style:"font-size:13px; padding:2px;",text:"Write a comment"})
+                                            )
+                                        )
+                                    ),
+                                    $('<ul></ul>',{class:"list-group"})
+                                )
+                            );
+
+                        });
+
+                    }
+
+                });
+            }
+
             //loading posts
             function loadPosts(page){
 
@@ -166,11 +220,11 @@
                         $.each(data['data'], function(key, value){
 
                             var LastPanelId =  panel.find('div.panel:last-child').attr('id');
-                            var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:value['user']['profile_picture']});
+                            var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:"{{ url('/') }}"+value['user']['profile_picture']});
 
                             if(LastPanelId != value['id']){
 
-                                 panel.append(
+                                panel.append(
                                     $('<div></div>', { id:value['id'], class:"panel panel-default"}).append(
                                         $('<div></div>', {class:"panel-body"}).append(
                                             $('<div></div>').append(
@@ -231,7 +285,7 @@
             function showComments(id){
                 $.ajax({
                     type:"GET",
-                    url:"{{ '/showcomments' }}",
+                    url:"{{ url('/showcomments') }}",
                     data:{
                         "_token":"{{ csrf_token() }}",
                         "id":id
@@ -285,11 +339,62 @@
                 notif.empty();
             }
 
+            function newPost(count, post_id){
+
+                var sum = Number($('span#post-ctr').text()) + Number(count);
+                var input = $('input#post-ids').val();
+
+                if(input != undefined){
+                    post_id = input + ',' + post_id;
+                }
+
+                //naming convention
+                var post = "new post ";
+
+                if( sum > 1 ){
+
+                    post = "new posts ";
+                }
+
+                frmFooter.empty().append(
+                    $('<div></div>', { class:"alert alert-success text-center", style:"margin:0px"}).append(
+
+                        $('<span></span>', {id:"post-ctr", text: sum}),
+                        $('<span></span>', {text:" "+post}),
+                        $('<a></a>', {href:"javascript:;", class:"text-success load-nw-posts"}).append(
+                            $('<span></span>', {class:"fa fa-refresh"})),
+                            $('<input></input>',{ type:"hidden", id:"post-ids", value:post_id})
+                    )
+                );
+
+            }
+
+            $(document).on('click', 'a.load-nw-posts', function(){
+
+                var postIds = $('input#post-ids').val();
+                var toArrPostIds = new Array();
+
+                toArrPostIds = postIds.split(",");
+
+                //call ajax to load new post
+                prependNewPosts(toArrPostIds);
+
+                //empty the alert
+                frmFooter.empty();
+
+            });
+
             var pusher = new Pusher("{{env("PUSHER_KEY")}}")
             var channel = pusher.subscribe('post');
             channel.bind('App\\Events\\PostEvent', function(data) {
+            
+                var sender = {{ Auth::user()->id }}; 
 
-                prependPost(data.post.id);
+                if(data.post.user_id != sender ){
+
+                    newPost(1, data.post.id);
+
+                }
 
             });
             

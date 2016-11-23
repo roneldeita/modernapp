@@ -24,6 +24,8 @@ Route::post('/create_post', 'HomeController@create_post');
 
 Route::get('/inserted', 'HomeController@inserted');
 
+Route::get('/loadnewposts', 'HomeController@load_new_posts');
+
 
 Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){
 

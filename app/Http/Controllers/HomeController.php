@@ -64,7 +64,9 @@ class HomeController extends Controller
 
         $new_post = Post::find($id);
 
-        event(new PostEvent($new_post));
+       // event(new PostEvent($new_post));
+
+        broadcast(new PostEvent($new_post))->toOthers();
 
         return response()->json($response);
 
@@ -78,7 +80,15 @@ class HomeController extends Controller
 
         return response()->json($post);
 
+    }
 
+    public function load_new_posts(){
+
+        $post_ids = Input::get('ids');
+
+        $posts = Post::findMany($post_ids);
+
+        return response()->json($posts);
 
     }
 

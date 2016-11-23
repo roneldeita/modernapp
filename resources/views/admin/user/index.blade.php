@@ -316,7 +316,7 @@
 
 						$.each(data, function(key, value){
 
-							var profilePic = $('<img/>',{ class:"img-circle", width:"30px", src:value['profile_picture']});
+							var profilePic = $('<img/>',{ class:"img-circle", width:"30px", src:"{{ url('/') }}"+value['profile_picture']});
 
 							tbody.append($('<tr></tr>').append(
 								$('<td></td>').append(profilePic),
