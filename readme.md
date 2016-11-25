@@ -1,7 +1,12 @@
 ## Installation
 
 Pull this project, create .env file, generate key, migrate and seed.
-
+<br />
+-Set the timezone
+<br />
+-To view the Admin Control, use the following credentials. 
+Email: admin@email.com
+Pass: admin
 ## Some configuration for .env file 
 
 BROADCAST_DRIVER=pusher

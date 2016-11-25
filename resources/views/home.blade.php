@@ -26,7 +26,7 @@
                              <textarea class="form-control" rows="4" name="body"></textarea>
                         </div>
                         <div class="form-group">
-                             <button class="btn btn-sm btn-primary pull-right" name="post">Post</button>
+                             <button class="btn btn-sm btn-primary pull-right" name="post" style="width:80px">Post</button>
                         </div>
                         <div class="notif-msg"></div>
                     </form>
@@ -83,6 +83,8 @@
                     beforeSend: function(){
 
                         cleanNotif();
+                        postBtn.text('Posting...');
+                        postBtn.prop( "disabled", true);
                         
                     },
                     success: function(data){
@@ -104,6 +106,10 @@
                         });
 
                 
+                    },
+                    complete:function(){
+                        postBtn.text('Post');
+                        postBtn.prop( "disabled", false);
                     }
 
                 });
@@ -333,9 +339,9 @@
                     dataType:"JSON",
                     success:function(data){
 
-                        var comment_list = $('div#'+postID).find('ul.list-group').find('li:last').prev();
+                        var comment_list = $('div#'+postID).find('ul.list-group').find('li:last');
 
-                        comment_list.after(
+                        comment_list.before(
                             $('<li></li>',{style:"border:0px; font-size:14px; line-height:6px",class:"list-group-item"}).append(
                                 $('<p></p>', {text:" "+data['body']}).prepend($('<a></a>',{href:"javascript:;", text:data['owner']})),
                                 $('<p></p>', {text:data['created'], style:"font-size:11px;"})
@@ -441,10 +447,10 @@
             });
 
             var pusher = new Pusher("{{env("PUSHER_KEY")}}")
-            var channel = pusher.subscribe('post');
-            var channel = pusher.subscribe('comment');
+            var channelPost = pusher.subscribe('post');
+            var channelComment = pusher.subscribe('comment');
 
-            channel.bind('App\\Events\\PostEvent', function(data) {
+            channelPost.bind('App\\Events\\PostEvent', function(data) {
             
                 var sender = {{ Auth::user()->id }}; 
 
@@ -456,7 +462,7 @@
 
             });
 
-            channel.bind('App\\Events\\CommentEvent', function(data) {
+            channelComment.bind('App\\Events\\CommentEvent', function(data) {
             
                 var sender = {{ Auth::user()->id }}; 
 

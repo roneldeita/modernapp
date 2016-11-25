@@ -45,7 +45,7 @@
 				<table class="table table-hover" name="posts-table">
 					<thead>
 						<tr>
-							<th width="3%">&nbsp;</th>
+							<th width="3%"><input type="checkbox" name="check-all" /></th>
 							<th style="width:35%">Body</th>
 							<th style="width:10%">Owner</th>
 							<th style="width:10%">Category</th>
@@ -87,6 +87,7 @@
 	var pagination 		= $('div#pagination');
 
 	var multiDelete 	= $('button[name=multiple-delete]');
+	var selectAll		= $('input[name=check-all]');
 	/*
 	 * for the Modal
 	 */
@@ -136,6 +137,22 @@
 
 		});
 
+		//selectall/diselect all
+		selectAll.on('click', function(){
+
+			if($(this).prop('checked') === true){
+
+				$('input.selected-checkbox').prop('checked', true);
+
+			}else{
+
+				$('input.selected-checkbox').prop('checked', false);
+
+			}
+						
+		});
+
+		//delete
 		multiDelete.on('click', function(){
 
 			cleanModal();
@@ -163,6 +180,7 @@
 					success:function(data){
 						loadPosts(pagination.attr('data-active'));
 						modal.modal('hide');
+						selectAll.prop('checked', false)
 					}
 				});
 			});
@@ -246,6 +264,7 @@
 
 		}
 
+		//clean modal
 		function cleanModal(){
 
 			mTitle.text('');
