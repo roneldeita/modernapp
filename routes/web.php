@@ -20,11 +20,15 @@ Route::get('/posts', 'HomeController@posts');
 
 Route::get('/showcomments', 'HomeController@show_comments');
 
-Route::post('/create_post', 'HomeController@create_post');
+Route::post('/createpost', 'HomeController@create_post');
 
-Route::get('/inserted', 'HomeController@inserted');
+Route::get('/insertedpost', 'HomeController@inserted_post');
 
 Route::get('/loadnewposts', 'HomeController@load_new_posts');
+
+Route::post('/createcomment', 'HomeController@create_comment');
+
+Route::get('/insertedcomment', 'HomeController@inserted_comment');
 
 
 Route::group(['prefix'=>'admincontrol', 'middleware'=>'admin'], function(){

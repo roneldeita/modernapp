@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Input;
 use App\Postcategory;
 use App\Post;
 use App\Events\PostEvent;
+use App\Events\CommentEvent;
+use App\Comment;
 
 class HomeController extends Controller
 {
@@ -64,21 +66,31 @@ class HomeController extends Controller
 
         $new_post = Post::find($id);
 
-       // event(new PostEvent($new_post));
+        event(new PostEvent($new_post));
 
-        broadcast(new PostEvent($new_post))->toOthers();
+        //broadcast(new PostEvent($new_post))->toOthers();
 
         return response()->json($response);
 
     }
 
-    public function inserted(){
+    public function inserted_post(){
 
         $post_id = Input::get('id');
 
         $post = Post::findOrFail($post_id);
 
         return response()->json($post);
+
+    }
+
+    public function inserted_comment(){
+
+        $comment_id = Input::get('comment_id');
+
+        $comment = Comment::findOrFail($comment_id);
+
+        return response()->json($comment);
 
     }
 
@@ -92,11 +104,25 @@ class HomeController extends Controller
 
     }
 
-    public function messages()
+    public function create_comment(Request $request)
     {
-        return [
-            'postcategory_id.required' => 'The About field is required',
-            'body.required'  => 'A message is required',
-        ];
+
+        $post = Post::findOrFail($request->post_id);
+
+        $c = new Comment();
+
+        $c->body = $request->body;
+
+        $c->user_id = Auth::user()->id;
+
+        $id = $post->comments()->save($c)->id;
+
+        $response = ['id'=> $id];
+
+        $new_comment = Comment::find($id);
+
+        event(new CommentEvent($new_comment));
+
+        return response()->json($response);
     }
 }

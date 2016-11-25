@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class Comment extends Model
 {
-    protected $fillable = ['body', 'commentable_id', 'commentable_type'];
+    protected $fillable = ['user_id', 'body', 'commentable_id', 'commentable_type'];
 
     protected $appends = ['created', 'owner'];
 

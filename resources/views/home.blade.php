@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -76,7 +77,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('/create_post') }}",
+                    url: "{{ url('/createpost') }}",
                     data : form.serializeArray(),
                     dataType: "JSON",
                     beforeSend: function(){
@@ -119,7 +120,7 @@
             function prependPost(id){
                 $.ajax({
                     type:"GET",
-                    url: "{{ url('/inserted') }}",
+                    url: "{{ url('/insertedpost') }}",
                     data:{
                         "_token":"{{ csrf_token() }}",
                         "id":id
@@ -130,7 +131,7 @@
                         var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:data['user']['profile_picture']});
 
                         panel.prepend(
-                            $('<div></div>', { id:data['id'], class:"panel panel-default"}).append(
+                            $('<div></div>', { id:data['id'], class:"panel panel-default post-container"}).append(
                                 $('<div></div>', {class:"panel-body"}).append(
                                     $('<div></div>').append(
                                         profilePic,
@@ -143,9 +144,6 @@
                                     $('<ul></ul>',{class:"nav nav-pills"}).append(
                                         $('<li></li>').append(
                                             $('<a></a>',{href:"javascript:;", id: data['id'], text:" Comment", name:"comment-lnk", style:"font-size:13px; padding:2px;"}).prepend($('<span></span>', {class:"fa fa-chevron-circle-down text-muted"}))
-                                        ),
-                                        $('<li></li>',{class:"pull-right"}).append(
-                                            $('<a></a>',{href:"javascript:;", id: data['id'], name:"comment-wrt", style:"font-size:13px; padding:2px;",text:"Write a comment"})
                                         )
                                     )
                                 ),
@@ -175,7 +173,7 @@
                             var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:value['user']['profile_picture']});
 
                             panel.prepend(
-                                $('<div></div>', { id:value['id'], class:"panel panel-default"}).append(
+                                $('<div></div>', { id:value['id'], class:"panel panel-default post-container"}).append(
                                     $('<div></div>', {class:"panel-body"}).append(
                                         $('<div></div>').append(
                                             profilePic,
@@ -188,9 +186,6 @@
                                         $('<ul></ul>',{class:"nav nav-pills"}).append(
                                             $('<li></li>').append(
                                                 $('<a></a>',{href:"javascript:;", id: value['id'], text:" Comment", name:"comment-lnk", style:"font-size:13px; padding:2px;"}).prepend($('<span></span>', {class:"fa fa-chevron-circle-down text-muted"}))
-                                            ),
-                                            $('<li></li>',{class:"pull-right"}).append(
-                                                $('<a></a>',{href:"javascript:;", id: data['id'], name:"comment-wrt", style:"font-size:13px; padding:2px;",text:"Write a comment"})
                                             )
                                         )
                                     ),
@@ -205,7 +200,7 @@
                 });
             }
 
-            //loading posts
+            //load posts
             function loadPosts(page){
 
                 $.ajax({
@@ -225,7 +220,7 @@
                             if(LastPanelId != value['id']){
 
                                 panel.append(
-                                    $('<div></div>', { id:value['id'], class:"panel panel-default"}).append(
+                                    $('<div></div>', { id:value['id'], class:"panel panel-default post-container"}).append(
                                         $('<div></div>', {class:"panel-body"}).append(
                                             $('<div></div>').append(
                                                 profilePic,
@@ -238,9 +233,6 @@
                                             $('<ul></ul>',{class:"nav nav-pills"}).append(
                                                 $('<li></li>').append(
                                                     $('<a></a>',{href:"javascript:;", id: value['id'], text:" Comment", name:"comment-lnk", style:"font-size:13px; padding:2px;"}).prepend($('<span></span>', {class:"fa fa-chevron-circle-down text-muted"}))
-                                                ),
-                                                $('<li></li>',{class:"pull-right"}).append(
-                                                    $('<a></a>',{href:"javascript:;", id: value['id'], name:"comment-wrt", style:"font-size:13px; padding:2px;",text:"Write a comment"})
                                                 )
                                             ),
                                             $('<ul></ul>',{class:"list-group", style:"margin:1px"})
@@ -276,28 +268,28 @@
 
             }
 
+            //toggle comments
             $(document).on('click', 'a[name=comment-lnk]', function(){
                 showComments($(this).attr('id'));
             });
 
-
             //show comments
-            function showComments(id){
+            function showComments(postID){
                 $.ajax({
                     type:"GET",
                     url:"{{ url('/showcomments') }}",
                     data:{
                         "_token":"{{ csrf_token() }}",
-                        "id":id
+                        "id":postID
                     },
                     dataType:"JSON",
                     success:function(data){
 
-                        var comment_list = $('div#'+id).find('ul.list-group');
+                        var comment_list = $('div#'+postID).find('ul.list-group');
 
                         if(comment_list.children().length == 0){
 
-                            $('div#'+id).find('a[name=comment-lnk]').find('span').removeClass('fa-chevron-circle-down').addClass('fa-chevron-circle-up');
+                            $('div#'+postID).find('a[name=comment-lnk]').find('span').removeClass('fa-chevron-circle-down').addClass('fa-chevron-circle-up');
 
                             $.each(data, function(key, value){
 
@@ -309,18 +301,16 @@
                                 );
                                 
                             });
-
-                            if(data.length == 0){
-                               comment_list.append(
-                                    $('<li></li>',{style:"border:0px; font-size:14px; line-height:6px",class:"list-group-item"}).append(
-                                        $('<p></p>', {text:" No comments yet.."})
+ 
+                            comment_list.append(
+                                    $('<li></li>', { style:" border:0px; margin:0; padding:4px 2px;", class:"list-group-item" }).append(
+                                        $('<textarea></textarea>',{name:"comment-box",class:"form-control", rows:1, style:" height:32px; line-height:18px", placeholder:"Write a comment..."})
                                     )
                                 );
-                            }
 
                         }else{
 
-                            $('div#'+id).find('a[name=comment-lnk]').find('span').removeClass('fa-chevron-circle-up').addClass('fa-chevron-circle-down');
+                            $('div#'+postID).find('a[name=comment-lnk]').find('span').removeClass('fa-chevron-circle-up').addClass('fa-chevron-circle-down');
 
                             comment_list.empty();
 
@@ -329,6 +319,72 @@
                     }
                 });
             }
+
+            //append a comment
+            function appendComment(commentID, postID){
+
+                $.ajax({
+                    type:"GET",
+                    url:"{{ url('/insertedcomment') }}",
+                    data:{
+                        "_token":"{{ csrf_token() }}",
+                        comment_id:commentID
+                    },
+                    dataType:"JSON",
+                    success:function(data){
+
+                        var comment_list = $('div#'+postID).find('ul.list-group').find('li:last').prev();
+
+                        comment_list.after(
+                            $('<li></li>',{style:"border:0px; font-size:14px; line-height:6px",class:"list-group-item"}).append(
+                                $('<p></p>', {text:" "+data['body']}).prepend($('<a></a>',{href:"javascript:;", text:data['owner']})),
+                                $('<p></p>', {text:data['created'], style:"font-size:11px;"})
+                            )
+                        );
+
+                    }
+                });
+
+            }
+
+
+            //create a comment
+            $(document).on('keypress', 'textarea[name=comment-box]', function(e){
+
+                //get the comment
+                var comment = $(this).val();
+                //get the user_id
+                var userID = {{ Auth::user()->id }};
+                //get the post_id
+                var postID = $(this).parents('.post-container').attr('id');
+
+
+                if(e.which === 13){
+                    
+                    $.ajax({
+                        type:"POST",
+                        url:"{{ url('/createcomment') }}",
+                        data:{
+                            "_token":"{{ csrf_token() }}",
+                            "body":comment,
+                            "user_id":userID,
+                            "post_id":postID
+                        },
+                        dataType:"JSON",
+                        success:function(data){
+
+                            appendComment(data['id'], postID);
+                            
+                        }
+                    });
+
+                    //clear the comment box
+                    $(this).val('').focus();
+                    return false;
+
+                }
+
+            });
 
             function cleanForm(){
                 form.trigger('reset');
@@ -376,16 +432,18 @@
 
                 toArrPostIds = postIds.split(",");
 
-                //call ajax to load new post
+                //call ajax to load new posts
                 prependNewPosts(toArrPostIds);
 
-                //empty the alert
+                //clear the alert
                 frmFooter.empty();
 
             });
 
             var pusher = new Pusher("{{env("PUSHER_KEY")}}")
             var channel = pusher.subscribe('post');
+            var channel = pusher.subscribe('comment');
+
             channel.bind('App\\Events\\PostEvent', function(data) {
             
                 var sender = {{ Auth::user()->id }}; 
@@ -393,6 +451,18 @@
                 if(data.post.user_id != sender ){
 
                     newPost(1, data.post.id);
+
+                }
+
+            });
+
+            channel.bind('App\\Events\\CommentEvent', function(data) {
+            
+                var sender = {{ Auth::user()->id }}; 
+
+                if(data.comment.user_id != sender ){
+
+                    appendComment(data.comment.id, data.comment.commentable_id);
 
                 }
 
