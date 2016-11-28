@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
         	'name'=>'Administrator',
         	'email'=>'admin@email.com',
         	'password'=>bcrypt('admin'),
+            'confirmed'=>1,
             'updated_at' => date("Y-m-d H:i:s"),
             'created_at' => date("Y-m-d H:i:s")
         ]);

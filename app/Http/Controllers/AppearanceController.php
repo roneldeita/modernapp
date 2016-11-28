@@ -68,7 +68,7 @@ class AppearanceController extends Controller
 
             }else{
 
-                session()->flash('alert-type', 'danger' );
+                session()->flash('alert_type', 'danger' );
                 session()->flash('status', 'Unable to change theme' );
 
             }

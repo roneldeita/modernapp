@@ -33,7 +33,7 @@ class HomeController extends Controller
 
         $postcategories = Postcategory::pluck('name', 'id')->all();
 
-        return view('home', compact('postcategories'));
+        return view('/home', compact('postcategories'));
     }
 
     public function posts(){

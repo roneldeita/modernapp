@@ -2,6 +2,21 @@
 
 
 @section('content')
+
+<div>
+    @if(Auth::user()->confirmed!=1)
+
+        @include('notification.message', ['alert_type'=>'warning', 'status'=>'Please verify your email'])
+
+    @endif
+
+    @if (session('status'))
+
+        @include('notification.session')
+
+    @endif
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -134,7 +149,7 @@
                     dataType:"JSON",
                     success: function(data){
 
-                        var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:data['user']['profile_picture']});
+                        var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:"{{ url('/') }}"+data['user']['profile_picture']});
 
                         panel.prepend(
                             $('<div></div>', { id:data['id'], class:"panel panel-default post-container"}).append(
@@ -176,7 +191,7 @@
 
                         $.each(data, function(key, value){
 
-                            var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:value['user']['profile_picture']});
+                            var profilePic = $('<img/>',{ class:"img-rounded", style:"width:30px;height:30px;margin:0 5px 0 0", src:"{{ url('/') }}"+value['user']['profile_picture']});
 
                             panel.prepend(
                                 $('<div></div>', { id:value['id'], class:"panel panel-default post-container"}).append(
@@ -417,6 +432,8 @@
 
                     post = "new posts ";
                 }
+
+                
 
                 frmFooter.empty().append(
                     $('<div></div>', { class:"alert alert-success text-center", style:"margin:0px"}).append(

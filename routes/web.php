@@ -12,6 +12,8 @@
 
 Auth::routes();
 
+Route::get('/register/verify/{confirmation_code}', 'UserController@confirm');
+
 Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index');

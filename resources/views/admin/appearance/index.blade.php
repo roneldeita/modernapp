@@ -2,6 +2,14 @@
 
 @section('content')
 
+<div>
+   @if (session('status'))
+
+         @include('notification.message')
+
+    @endif
+</div>
+
 <div class="container">
 
 	<div class="row">

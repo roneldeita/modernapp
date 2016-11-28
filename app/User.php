@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'photo_id', 'theme_id', 'name', 'email', 'password',
+        'photo_id', 'theme_id', 'name', 'email', 'password', 'confirmed', 'confirmation_code'
     ];
 
     protected $appends = ['created', 'updated', 'profile_picture'];

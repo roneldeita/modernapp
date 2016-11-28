@@ -54,6 +54,28 @@ class UserController extends Controller
 
     }
 
+    public function confirm($confirmation_code)
+    {
+        if( !$confirmation_code ){
+            return "invalid!";
+        }
+
+        $user = User::whereConfirmationCode($confirmation_code)->first();
+
+        if( !$user ){
+            return "invalid!";
+        }
+
+        $user->confirmed = 1;
+        $user->confirmation_code = null;
+        $user->save();
+
+        session()->flash('alert_type', 'success' );
+        session()->flash('status', 'Email has been verified.' );
+
+        return redirect('/home');
+    }
+
     public function create(Request $request){
 
         $input = $request->all();

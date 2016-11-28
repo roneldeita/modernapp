@@ -93,13 +93,7 @@
                             <i class="fa fa-bars"></i>
                         </a>
                     </h1>
-                    <div>
-                       @if (session('status'))
-
-                             @include('notification.message')
-
-                        @endif
-                    </div>
+                    
                 </div>
 
                 <div class="page-content">
