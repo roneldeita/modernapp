@@ -63,7 +63,7 @@ class AppearanceController extends Controller
 
                 $theme = $user->theme['name'];
 
-                session()->flash('alert-type', 'success' );
+                session()->flash('alert_type', 'success' );
                 session()->flash('status', 'Your theme changed to ' . $theme );
 
             }else{
@@ -73,7 +73,6 @@ class AppearanceController extends Controller
 
             }
            
-
             return response()->json();
         }
 

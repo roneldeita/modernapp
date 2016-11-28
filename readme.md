@@ -1,8 +1,9 @@
 ## Installation
 
-Pull this project,composer install, create .env file, generate key, migrate and seed.
+Clone this project, composer install, create .env file, generate key, migrate and seed.
 <br />
--To view the Admin Control, use the following credentials. 
+<br />
+To view the Admin Control, use the following credentials. 
 <br />
 Email: admin@email.com
 <br />
