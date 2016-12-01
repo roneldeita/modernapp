@@ -5,7 +5,7 @@
 <div>
    @if (session('status'))
 
-         @include('notification.message')
+         @include('notification.session')
 
     @endif
 </div>

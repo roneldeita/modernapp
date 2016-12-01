@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ModulesTableSeeder::class);
         $this->call(MethodsTableSeeder::class);
         $this->call(MethodUserTableSeeder::class);
+        $this->call(PostCategoryTableSeeder::class);
 
     }
 }
