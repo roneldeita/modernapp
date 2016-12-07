@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Input;
 use App\Postcategory;
+use App\Events\PostCategoryEvent;
 
 class PostcategoryController extends Controller
 {
@@ -68,7 +69,10 @@ class PostcategoryController extends Controller
                 'name' => 'required|min:3|max:32'
             ]);
 
-            Postcategory::create($request->all());
+            $created = Postcategory::create($request->all());
+
+            event(new PostCategoryEvent($created));
+
 
             $response = [ 'msg' => 'New Category for Post created successfully' ];
 

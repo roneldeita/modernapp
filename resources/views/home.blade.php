@@ -64,7 +64,7 @@
 @endsection
 
 @section('scripts')
-    
+    <script src="{{ url('/js/socket.io.js') }}"></script>
     <script src="//js.pusher.com/3.0/pusher.min.js"></script>
 
     <script type="text/javascript">
@@ -463,6 +463,33 @@
 
             });
 
+            //REDIS
+            var socket = io('http://localhost:3000');
+            socket.on("post:App\\Events\\PostEvent", function(message){
+
+                var sender = {{ Auth::user()->id }}; 
+
+                if(message.post.user_id != sender ){
+
+                    newPost(1, message.post.id);
+
+                }
+
+             });
+
+            socket.on("comment:App\\Events\\CommentEvent", function(message){
+
+                var sender = {{ Auth::user()->id }}; 
+
+                if(message.comment.user_id != sender ){
+
+                    appendComment(message.comment.id, message.comment.commentable_id);
+
+                }
+                
+             });
+
+            //PUSHER
             var pusher = new Pusher("{{env("PUSHER_KEY")}}")
             var channelPost = pusher.subscribe('post');
             var channelComment = pusher.subscribe('comment');
